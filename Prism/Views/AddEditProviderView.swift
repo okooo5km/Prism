@@ -13,7 +13,7 @@ struct AddEditProviderView: View {
     let onCancel: () -> Void
     
     @State private var providerName: String
-    @State private var selectedTemplate: ProviderTemplate? = .zhipuAI
+    @State private var selectedTemplate: ProviderTemplate?
     @State private var envVariables: [String: String]
 
     private var isSaveDisabled: Bool {
@@ -33,12 +33,22 @@ struct AddEditProviderView: View {
         self.provider = provider
         self.onSave = onSave
         self.onCancel = onCancel
-        
+
         print("🔧 AddEditProviderView init - provider: \(provider?.name ?? "nil")")
-        _providerName = State(initialValue: provider?.name ?? "")
-        _envVariables = State(initialValue: provider?.envVariables ?? [:])
-        _selectedTemplate = State(initialValue: nil)
-        
+
+        if let provider = provider {
+            // Editing existing provider
+            _providerName = State(initialValue: provider.name)
+            _envVariables = State(initialValue: provider.envVariables)
+            _selectedTemplate = State(initialValue: nil)
+        } else {
+            // Adding new provider - use first template as default
+            let firstTemplate = ProviderTemplate.allTemplates.first!
+            _providerName = State(initialValue: firstTemplate.name)
+            _envVariables = State(initialValue: firstTemplate.envVariables)
+            _selectedTemplate = State(initialValue: firstTemplate)
+        }
+
         print("🔧 Initial state - name: '\(providerName)', envVars: \(envVariables)")
     }
     
@@ -112,42 +122,18 @@ struct AddEditProviderView: View {
             ScrollView {
                 VStack(alignment: .leading, spacing: 12) {
                     
+                    // Provider Template Picker
                     if provider == nil {
-                        
-                        HStack(spacing: 8) {
-                            HStack(spacing: 4) {
-                                Image(systemName: "square.text.square.fill")
-                                Text("Provider Template")
-                            }
-                            .font(.subheadline)
-                            .foregroundStyle(.tertiary)
-                            
-                            Spacer()
-                            
-                            Picker("", selection: $selectedTemplate) {
-                                Label("Choose a template", systemImage: "checklist")
-                                    .tag(nil as ProviderTemplate?)
-                                ForEach(ProviderTemplate.allTemplates, id: \.name) { template in
-                                    HStack {
-                                        Image(template.icon)
-                                            .resizable()
-                                            .aspectRatio(contentMode: .fit)
-                                            .frame(width: 12, height: 12)
-                                        Text(template.name)
-                                    }.tag(template as ProviderTemplate?)
-                                }
-                            }
-                            .pickerStyle(.menu)
-                            .controlSize(.small)
-                            .onChange(of: selectedTemplate) { _, template in
-                                if let template = template {
-                                    providerName = template.name
-                                    envVariables = template.envVariables
-                                }
+                        HorizontalTemplatePicker(
+                            selection: $selectedTemplate,
+                            templates: ProviderTemplate.allTemplates
+                        )
+                        .onChange(of: selectedTemplate) { _, template in
+                            if let template = template {
+                                providerName = template.name
+                                envVariables = template.envVariables
                             }
                         }
-                        .padding(8)
-                        .background(cornerRadius: 12, strokeColor: .primary.opacity(0.08), fill: .background.opacity(0.6))
                     }
                     
                     // Provider Information

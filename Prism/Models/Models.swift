@@ -59,7 +59,7 @@ struct ProviderTemplate: Hashable, Equatable {
     let icon: String
 
     static let zhipuAI = ProviderTemplate(
-        name: "Zhipu AI",
+        name: String(localized: "Zhipu AI"),
         envVariables: [
             "ANTHROPIC_BASE_URL": "https://open.bigmodel.cn/api/anthropic",
             "ANTHROPIC_AUTH_TOKEN": "",
@@ -83,7 +83,7 @@ struct ProviderTemplate: Hashable, Equatable {
     )
     
     static let moonshotAI = ProviderTemplate(
-        name: "Moonshot AI",
+        name: String(localized: "Moonshot AI"),
         envVariables: [
             "ANTHROPIC_BASE_URL": "https://api.moonshot.cn/anthropic",
             "ANTHROPIC_AUTH_TOKEN": "",
@@ -95,7 +95,7 @@ struct ProviderTemplate: Hashable, Equatable {
     )
     
     static let otherAI = ProviderTemplate(
-        name: "Custom AI",
+        name: String(localized: "Custom AI"),
         envVariables: [
             "ANTHROPIC_BASE_URL": "",
             "ANTHROPIC_AUTH_TOKEN": "",

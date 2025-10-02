@@ -171,23 +171,6 @@
         }
       }
     },
-    "Choose a template" : {
-      "comment" : "Picker placeholder for template selection",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "选择模板"
-          }
-        },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "選擇模板"
-          }
-        }
-      }
-    },
     "Claude Default" : {
       "comment" : "Default Claude provider name",
       "localizations" : {
@@ -218,6 +201,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已複製"
+          }
+        }
+      }
+    },
+    "Custom AI" : {
+      "comment" : "Custom AI provider name",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定义"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自訂"
           }
         }
       }
@@ -394,6 +394,23 @@
         }
       }
     },
+    "Moonshot AI" : {
+      "comment" : "Moonshot AI provider name",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "月之暗面"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "月之暗面"
+          }
+        }
+      }
+    },
     "No" : {
       "comment" : "No button",
       "localizations" : {
@@ -548,23 +565,6 @@
         }
       }
     },
-    "Provider Template" : {
-      "comment" : "Template selection section title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "API 服务商模板"
-          }
-        },
-        "zh-HK" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "API 服務商模板"
-          }
-        }
-      }
-    },
     "Quit Prism now?" : {
       "comment" : "Quit confirmation message",
       "localizations" : {
@@ -664,6 +664,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "是"
+          }
+        }
+      }
+    },
+    "Zhipu AI" : {
+      "comment" : "Zhipu AI provider name",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "智谱 AI"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "智譜 AI"
           }
         }
       }
