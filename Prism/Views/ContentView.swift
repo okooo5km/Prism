@@ -10,6 +10,7 @@ import SwiftUI
 struct ContentView: View {
     @State private var viewModel = ContentViewModel()
     @State private var showQuitAlert: Bool = false
+    @State private var sandboxManager = SandboxAccessManager.shared
 
     private var appVersion: String {
         Bundle.main.infoDictionary?["CFBundleShortVersionString"] as? String ?? "0.1"
@@ -21,6 +22,12 @@ struct ContentView: View {
                 .opacity(viewModel.currentView == .main ? 1 : 0)
                 .scaleEffect(viewModel.currentView == .main ? 1 : 0.95)
                 .animation(.easeInOut(duration: 0.3), value: viewModel.currentView)
+
+            // Permission overlay when no file access
+            if !sandboxManager.hasAccess {
+                PermissionOverlay()
+                    .opacity(viewModel.currentView == .main ? 1 : 0)
+            }
 
             if viewModel.currentView == .add {
                 AddEditProviderView(

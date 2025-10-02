@@ -11,6 +11,7 @@ import Foundation
 class ConfigManager {
     private let claudeConfigPath: String
     private let backupPath: String
+    private let sandboxManager = SandboxAccessManager.shared
 
     init() {
         let homeDirectory = FileManager.default.homeDirectoryForCurrentUser
@@ -22,14 +23,17 @@ class ConfigManager {
     typealias ClaudeConfig = [String: Any]
 
     func readConfig() -> ClaudeConfig? {
-        guard FileManager.default.fileExists(atPath: claudeConfigPath) else {
-            return nil
-        }
-
         do {
-            let data = try Data(contentsOf: URL(fileURLWithPath: claudeConfigPath))
-            let config = try JSONSerialization.jsonObject(with: data) as? [String: Any]
-            return config
+            return try sandboxManager.withSecureAccess { directoryURL in
+                let configURL = directoryURL.appendingPathComponent("settings.json")
+                guard FileManager.default.fileExists(atPath: configURL.path) else {
+                    return nil
+                }
+
+                let data = try Data(contentsOf: configURL)
+                let config = try JSONSerialization.jsonObject(with: data) as? [String: Any]
+                return config
+            }
         } catch {
             print("Failed to read Claude config: \(error)")
             return nil
@@ -41,17 +45,20 @@ class ConfigManager {
         createBackup()
 
         do {
-            let data = try JSONSerialization.data(
-                withJSONObject: config,
-                options: [.prettyPrinted, .withoutEscapingSlashes]
-            )
+            return try sandboxManager.withSecureAccess { directoryURL in
+                let configURL = directoryURL.appendingPathComponent("settings.json")
 
-            // Ensure directory exists
-            let directory = (claudeConfigPath as NSString).deletingLastPathComponent
-            try FileManager.default.createDirectory(atPath: directory, withIntermediateDirectories: true)
+                let data = try JSONSerialization.data(
+                    withJSONObject: config,
+                    options: [.prettyPrinted, .withoutEscapingSlashes]
+                )
 
-            try data.write(to: URL(fileURLWithPath: claudeConfigPath))
-            return true
+                // Ensure directory exists
+                try FileManager.default.createDirectory(at: directoryURL, withIntermediateDirectories: true)
+
+                try data.write(to: configURL)
+                return true
+            }
         } catch {
             print("Failed to write Claude config: \(error)")
             // Restore backup if write failed
@@ -150,29 +157,39 @@ class ConfigManager {
     }
 
     private func createBackup() {
-        if FileManager.default.fileExists(atPath: claudeConfigPath) {
-            do {
+        do {
+            try sandboxManager.withSecureAccess { directoryURL in
+                let configURL = directoryURL.appendingPathComponent("settings.json")
+                let backupURL = directoryURL.appendingPathComponent("settings.json.backup")
+
+                guard FileManager.default.fileExists(atPath: configURL.path) else { return }
+
                 // Remove existing backup if it exists
-                if FileManager.default.fileExists(atPath: backupPath) {
-                    try FileManager.default.removeItem(atPath: backupPath)
+                if FileManager.default.fileExists(atPath: backupURL.path) {
+                    try FileManager.default.removeItem(at: backupURL)
                 }
                 // Create new backup
-                try FileManager.default.copyItem(atPath: claudeConfigPath, toPath: backupPath)
-            } catch {
-                print("Failed to create backup: \(error)")
+                try FileManager.default.copyItem(at: configURL, to: backupURL)
             }
+        } catch {
+            print("Failed to create backup: \(error)")
         }
     }
 
     private func restoreBackup() {
-        if FileManager.default.fileExists(atPath: backupPath) {
-            do {
-                try FileManager.default.removeItem(atPath: claudeConfigPath)
-                try FileManager.default.copyItem(atPath: backupPath, toPath: claudeConfigPath)
-                try FileManager.default.removeItem(atPath: backupPath)
-            } catch {
-                print("Failed to restore backup: \(error)")
+        do {
+            try sandboxManager.withSecureAccess { directoryURL in
+                let configURL = directoryURL.appendingPathComponent("settings.json")
+                let backupURL = directoryURL.appendingPathComponent("settings.json.backup")
+
+                guard FileManager.default.fileExists(atPath: backupURL.path) else { return }
+
+                try FileManager.default.removeItem(at: configURL)
+                try FileManager.default.copyItem(at: backupURL, to: configURL)
+                try FileManager.default.removeItem(at: backupURL)
             }
+        } catch {
+            print("Failed to restore backup: \(error)")
         }
     }
 }
