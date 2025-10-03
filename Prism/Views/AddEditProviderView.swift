@@ -16,7 +16,11 @@ struct AddEditProviderView: View {
 
     @State private var providerName: String
     @State private var selectedTemplate: ProviderTemplate?
-    @State private var envVariables: [String: String]
+    @State private var envVariables: [String: EnvValue]
+    @State private var showingAddCustomVar = false
+    @State private var newCustomKey = ""
+    @State private var newCustomValue = ""
+    @State private var newCustomType: EnvValueType = .string
 
     private var isSaveDisabled: Bool {
         // Provider name is required
@@ -25,8 +29,8 @@ struct AddEditProviderView: View {
         }
 
         // BASE_URL and AUTH_TOKEN are required
-        let baseURL = envVariables["ANTHROPIC_BASE_URL"] ?? ""
-        let authToken = envVariables["ANTHROPIC_AUTH_TOKEN"] ?? ""
+        let baseURL = envVariables["ANTHROPIC_BASE_URL"]?.value ?? ""
+        let authToken = envVariables["ANTHROPIC_AUTH_TOKEN"]?.value ?? ""
 
         return baseURL.isEmpty || authToken.isEmpty
     }
@@ -83,8 +87,8 @@ struct AddEditProviderView: View {
                 
                 Button(action: {
                     // Check token duplicate before saving
-                    let token = envVariables["ANTHROPIC_AUTH_TOKEN"] ?? ""
-                    let baseURL = envVariables["ANTHROPIC_BASE_URL"] ?? ""
+                    let token = envVariables["ANTHROPIC_AUTH_TOKEN"]?.value ?? ""
+                    let baseURL = envVariables["ANTHROPIC_BASE_URL"]?.value ?? ""
                     let excludingID = provider?.id
 
                     let checkResult = onCheckDuplicate(token, baseURL, excludingID)
@@ -109,7 +113,7 @@ struct AddEditProviderView: View {
             
             ScrollView {
                 VStack(alignment: .leading, spacing: 12) {
-                    
+
                     // Provider Template Picker
                     if provider == nil {
                         HorizontalTemplatePicker(
@@ -123,7 +127,7 @@ struct AddEditProviderView: View {
                             }
                         }
                     }
-                    
+
                     // Provider Information
                     DetailTextFieldCardView(
                         title: LocalizedStringKey("Provider Name"),
@@ -131,32 +135,82 @@ struct AddEditProviderView: View {
                         placeholder: LocalizedStringKey("Enter provider name"),
                         value: $providerName
                     )
-                    
-                    // Environment Variables
-                    ForEach(EnvKey.allCases) { envKey in
-                        if envKey == .authToken {
-                            DetailSecureFieldCardView(
-                                title: LocalizedStringKey(envKey.displayName),
-                                systemImage: envKey.systemImage,
-                                placeholder: LocalizedStringKey(envKey.placeholder),
-                                required: true,
-                                value: binding(for: envKey)
-                            )
-                        } else {
-                            DetailTextFieldCardView(
-                                title: LocalizedStringKey(envKey.displayName),
-                                systemImage: envKey.systemImage,
-                                placeholder: LocalizedStringKey(envKey.placeholder),
-                                required: envKey == .baseURL,
-                                value: binding(for: envKey)
-                            )
+
+                    // Template Environment Variables
+                    ForEach(templateKeys, id: \.self) { key in
+                        if let envKey = EnvKey(rawValue: key) {
+                            renderField(for: envKey)
                         }
+                    }
+
+                    // Custom Environment Variables Section
+                    if !customKeys.isEmpty {
+                        VStack(alignment: .leading, spacing: 8) {
+                            Text("Custom Variables")
+                                .font(.caption)
+                                .foregroundStyle(.tertiary)
+                                .fontWeight(.bold)
+                                .padding(.top, 8)
+
+                            ForEach(customKeys, id: \.self) { key in
+                                renderCustomField(for: key)
+                            }
+                        }
+                    }
+
+                    // Add Custom Variable Button
+                    Button(action: {
+                        showingAddCustomVar = true
+                    }) {
+                        HStack {
+                            Image(systemName: "plus.circle.fill")
+                            Text("Add Custom Variable")
+                        }
+                        .font(.subheadline)
+                        .padding(8)
+                        .frame(maxWidth: .infinity)
+                        .background(cornerRadius: 8, strokeColor: .primary.opacity(0.08), fill: .background.opacity(0.6))
+                    }
+                    .buttonStyle(.plain)
+                    .popover(isPresented: $showingAddCustomVar, arrowEdge: .bottom) {
+                        AddCustomVariableView(
+                            key: $newCustomKey,
+                            value: $newCustomValue,
+                            type: $newCustomType,
+                            onSave: {
+                                if !newCustomKey.isEmpty {
+                                    envVariables[newCustomKey] = EnvValue(value: newCustomValue, type: newCustomType)
+                                    newCustomKey = ""
+                                    newCustomValue = ""
+                                    newCustomType = .string
+                                    showingAddCustomVar = false
+                                }
+                            },
+                            onCancel: {
+                                newCustomKey = ""
+                                newCustomValue = ""
+                                newCustomType = .string
+                                showingAddCustomVar = false
+                            }
+                        )
                     }
                 }
                 .padding(.horizontal, 12)
                 .padding(.bottom, 12)
             }
         }
+    }
+
+    // MARK: - Helper Computed Properties
+
+    private var templateKeys: [String] {
+        let allEnvKeys = Set(EnvKey.allCases.map { $0.rawValue })
+        return envVariables.keys.filter { allEnvKeys.contains($0) }.sorted()
+    }
+
+    private var customKeys: [String] {
+        let allEnvKeys = Set(EnvKey.allCases.map { $0.rawValue })
+        return envVariables.keys.filter { !allEnvKeys.contains($0) }.sorted()
     }
 
     private func showDuplicateAlertWindow(for result: TokenCheckResult) {
@@ -192,7 +246,7 @@ struct AddEditProviderView: View {
             "ANTHROPIC_DEFAULT_OPUS_MODEL"
         ]
         for key in modelKeys {
-            if let value = cleanedEnvVariables[key], value.isEmpty {
+            if let value = cleanedEnvVariables[key]?.value, value.isEmpty {
                 cleanedEnvVariables.removeValue(forKey: key)
             }
         }
@@ -223,12 +277,200 @@ struct AddEditProviderView: View {
     private func binding(for envKey: EnvKey) -> Binding<String> {
         Binding<String>(
             get: {
-                envVariables[envKey.rawValue] ?? ""
+                envVariables[envKey.rawValue]?.value ?? ""
             },
             set: { newValue in
-                envVariables[envKey.rawValue] = newValue
+                let currentType = envVariables[envKey.rawValue]?.type ?? envKey.valueType
+                envVariables[envKey.rawValue] = EnvValue(value: newValue, type: currentType)
             }
         )
+    }
+
+    private func boolBinding(for envKey: EnvKey) -> Binding<Bool> {
+        Binding<Bool>(
+            get: {
+                let value = envVariables[envKey.rawValue]?.value ?? "0"
+                return value == "1" || value.lowercased() == "true"
+            },
+            set: { newValue in
+                envVariables[envKey.rawValue] = EnvValue(value: newValue ? "1" : "0", type: .boolean)
+            }
+        )
+    }
+
+    @ViewBuilder
+    private func renderField(for envKey: EnvKey) -> some View {
+        switch envKey.valueType {
+        case .string:
+            if envKey == .authToken {
+                DetailSecureFieldCardView(
+                    title: LocalizedStringKey(envKey.displayName),
+                    systemImage: envKey.systemImage,
+                    placeholder: LocalizedStringKey(envKey.placeholder),
+                    required: true,
+                    value: binding(for: envKey)
+                )
+            } else {
+                DetailTextFieldCardView(
+                    title: LocalizedStringKey(envKey.displayName),
+                    systemImage: envKey.systemImage,
+                    placeholder: LocalizedStringKey(envKey.placeholder),
+                    required: envKey == .baseURL,
+                    value: binding(for: envKey)
+                )
+            }
+        case .integer:
+            DetailTextFieldCardView(
+                title: LocalizedStringKey(envKey.displayName),
+                systemImage: envKey.systemImage,
+                placeholder: LocalizedStringKey(envKey.placeholder),
+                validation: { value in
+                    value.isEmpty || Int(value) != nil
+                },
+                validationMessage: "Must be a valid integer",
+                value: binding(for: envKey)
+            )
+        case .boolean:
+            DetailSwitchCardView(
+                title: LocalizedStringKey(envKey.displayName),
+                systemImage: envKey.systemImage,
+                value: boolBinding(for: envKey)
+            )
+        }
+    }
+
+    @ViewBuilder
+    private func renderCustomField(for key: String) -> some View {
+        if let envValue = envVariables[key] {
+            VStack(alignment: .leading, spacing: 8) {
+                HStack(spacing: 4) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "gearshape")
+                        Text(key)
+                        
+                        Text(envValue.type.rawValue.capitalized)
+                            .font(.caption2)
+                            .padding(.horizontal, 6)
+                            .padding(.vertical, 2)
+                            .background(cornerRadius: 4, fill: .secondary.opacity(0.2))
+                    }
+                    .foregroundStyle(.tertiary)
+                    
+                    Spacer()
+                    
+                    Button(action: {
+                        envVariables.removeValue(forKey: key)
+                    }) {
+                        Image(systemName: "minus.circle.fill")
+                    }
+                    .buttonStyle(.plain)
+                }
+                .font(.subheadline)
+
+                if envValue.type == .boolean {
+                    Toggle("", isOn: Binding(
+                        get: {
+                            envValue.value == "1" || envValue.value.lowercased() == "true"
+                        },
+                        set: { newValue in
+                            envVariables[key] = EnvValue(value: newValue ? "1" : "0", type: .boolean)
+                        }
+                    ))
+                    .toggleStyle(.switch)
+                    .controlSize(.mini)
+                } else {
+                    TextField("Value", text: Binding(
+                        get: { envValue.value },
+                        set: { newValue in
+                            envVariables[key] = EnvValue(value: newValue, type: envValue.type)
+                        }
+                    ))
+                    .font(.caption)
+                    .textFieldStyle(.plain)
+                    .padding(8)
+                    .background(cornerRadius: 8, strokeColor: .primary.opacity(0.04), fill: .background)
+                }
+            }
+            .padding(8)
+            .background(cornerRadius: 12, strokeColor: .primary.opacity(0.08), fill: .background.opacity(0.6))
+        }
+    }
+}
+
+// MARK: - Add Custom Variable View
+
+struct AddCustomVariableView: View {
+    @Binding var key: String
+    @Binding var value: String
+    @Binding var type: EnvValueType
+    let onSave: () -> Void
+    let onCancel: () -> Void
+
+    var body: some View {
+        VStack(spacing: 16) {
+            Text("Add Custom Variable")
+                .font(.headline)
+
+            DetailTextFieldCardView(
+                title: "Key",
+                systemImage: "key",
+                placeholder: "CUSTOM_ENV_KEY",
+                required: true,
+                value: $key
+            )
+
+            DetailPickerCardView(
+                "Type",
+                systemImage: "gear",
+                selection: $type
+            ) {
+                Text("String").tag(EnvValueType.string)
+                Text("Integer").tag(EnvValueType.integer)
+                Text("Boolean").tag(EnvValueType.boolean)
+            }
+
+            if type == .boolean {
+                DetailSwitchCardView(
+                    title: "Value",
+                    systemImage: "checkmark.circle",
+                    value: Binding(
+                        get: { value == "1" || value.lowercased() == "true" },
+                        set: { value = $0 ? "1" : "0" }
+                    )
+                )
+            } else {
+                DetailTextFieldCardView(
+                    title: "Value",
+                    systemImage: "text.alignleft",
+                    placeholder: type == .integer ? "123" : "value",
+                    validation: { val in
+                        if type == .integer && !val.isEmpty {
+                            return Int(val) != nil
+                        }
+                        return true
+                    },
+                    validationMessage: "Must be a valid integer",
+                    value: $value
+                )
+            }
+
+            HStack {
+                Button("Cancel") {
+                    onCancel()
+                }
+                .buttonStyle(.plain)
+
+                Spacer()
+
+                Button("Save") {
+                    onSave()
+                }
+                .buttonStyle(.gradient(configuration: .primary))
+                .disabled(key.isEmpty)
+            }
+        }
+        .padding()
+        .frame(width: 400)
     }
 }
 

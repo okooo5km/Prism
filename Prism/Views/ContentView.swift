@@ -70,7 +70,7 @@ struct ContentView: View {
             }
         }
         .background(.clear)
-        .frame(width: 360, height: 320)
+        .frame(width: 360, height: 360)
         .animation(.easeInOut(duration: 0.35), value: viewModel.currentView)
         .onAppear {
             viewModel.syncConfigurationState()
@@ -259,7 +259,7 @@ struct ProviderRowView: View {
                         .font(.headline)
                         .fontWeight(.semibold)
 
-                    Text(provider.envVariables["ANTHROPIC_BASE_URL"] ?? "")
+                    Text(provider.envVariables["ANTHROPIC_BASE_URL"]?.value ?? "")
                         .font(.caption)
                         .foregroundStyle(.secondary)
                         .truncationMode(.middle)

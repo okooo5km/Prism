@@ -39,8 +39,8 @@ class ContentViewModel {
     // Computed Properties
     var isDefaultActive: Bool {
         let currentEnv = configManager.getCurrentEnvVariables()
-        let hasBaseURL = !(currentEnv["ANTHROPIC_BASE_URL"] ?? "").isEmpty
-        let hasAuthToken = !(currentEnv["ANTHROPIC_AUTH_TOKEN"] ?? "").isEmpty
+        let hasBaseURL = !(currentEnv["ANTHROPIC_BASE_URL"]?.value ?? "").isEmpty
+        let hasAuthToken = !(currentEnv["ANTHROPIC_AUTH_TOKEN"]?.value ?? "").isEmpty
         return !hasBaseURL && !hasAuthToken
     }
 

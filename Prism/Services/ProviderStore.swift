@@ -76,9 +76,9 @@ class ProviderStore {
                 continue
             }
 
-            if let providerToken = provider.envVariables["ANTHROPIC_AUTH_TOKEN"],
+            if let providerToken = provider.envVariables["ANTHROPIC_AUTH_TOKEN"]?.value,
                providerToken == token {
-                let providerURL = provider.envVariables["ANTHROPIC_BASE_URL"] ?? ""
+                let providerURL = provider.envVariables["ANTHROPIC_BASE_URL"]?.value ?? ""
 
                 if providerURL == baseURL {
                     return .duplicateWithSameURL(provider)
@@ -92,8 +92,8 @@ class ProviderStore {
     }
 
     /// Infer appropriate icon based on BASE_URL by matching host domain
-    static func inferIcon(from envVariables: [String: String]) -> String {
-        guard let baseURL = envVariables["ANTHROPIC_BASE_URL"], !baseURL.isEmpty else {
+    static func inferIcon(from envVariables: [String: EnvValue]) -> String {
+        guard let baseURL = envVariables["ANTHROPIC_BASE_URL"]?.value, !baseURL.isEmpty else {
             return "ClaudeLogo"
         }
 
@@ -102,7 +102,7 @@ class ProviderStore {
 
         // Match with template hosts
         for template in ProviderTemplate.allTemplates {
-            if let templateURL = template.envVariables["ANTHROPIC_BASE_URL"],
+            if let templateURL = template.envVariables["ANTHROPIC_BASE_URL"]?.value,
                !templateURL.isEmpty {
                 let templateHost = extractHost(from: templateURL)
                 if !templateHost.isEmpty && inputHost == templateHost {
@@ -122,6 +122,8 @@ class ProviderStore {
             return "MoonshotLogo"
         } else if inputHost.contains("streamlakeapi.com") {
             return "StreamLakeLogo"
+        } else if inputHost.contains("deepseek.com") {
+            return "DeepSeekLogo"
         }
 
         return "OtherLogo"

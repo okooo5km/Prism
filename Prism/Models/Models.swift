@@ -7,14 +7,30 @@
 
 import Foundation
 
+enum EnvValueType: String, Codable {
+    case string
+    case integer
+    case boolean
+}
+
+struct EnvValue: Codable, Equatable, Hashable {
+    var value: String
+    var type: EnvValueType
+
+    init(value: String, type: EnvValueType) {
+        self.value = value
+        self.type = type
+    }
+}
+
 struct Provider: Identifiable, Codable {
     let id: UUID
     var name: String
-    var envVariables: [String: String]
+    var envVariables: [String: EnvValue]
     var isActive: Bool
     var icon: String
 
-    init(name: String, envVariables: [String: String], icon: String = "ClaudeLogo", isActive: Bool = false) {
+    init(name: String, envVariables: [String: EnvValue], icon: String = "ClaudeLogo", isActive: Bool = false) {
         self.id = UUID()
         self.name = name
         self.envVariables = envVariables
@@ -22,7 +38,7 @@ struct Provider: Identifiable, Codable {
         self.isActive = isActive
     }
 
-    init(id: UUID, name: String, envVariables: [String: String], icon: String, isActive: Bool) {
+    init(id: UUID, name: String, envVariables: [String: EnvValue], icon: String, isActive: Bool) {
         self.id = id
         self.name = name
         self.envVariables = envVariables
@@ -38,7 +54,17 @@ struct Provider: Identifiable, Codable {
         let container = try decoder.container(keyedBy: CodingKeys.self)
         id = try container.decode(UUID.self, forKey: .id)
         name = try container.decode(String.self, forKey: .name)
-        envVariables = try container.decode([String: String].self, forKey: .envVariables)
+
+        // Try to decode as new format first, fallback to old format for compatibility
+        if let newFormat = try? container.decode([String: EnvValue].self, forKey: .envVariables) {
+            envVariables = newFormat
+        } else if let oldFormat = try? container.decode([String: String].self, forKey: .envVariables) {
+            // Migrate old data: convert [String: String] to [String: EnvValue]
+            envVariables = oldFormat.mapValues { EnvValue(value: $0, type: .string) }
+        } else {
+            envVariables = [:]
+        }
+
         isActive = try container.decode(Bool.self, forKey: .isActive)
         icon = try container.decodeIfPresent(String.self, forKey: .icon) ?? "ClaudeLogo"
     }
@@ -55,17 +81,17 @@ struct Provider: Identifiable, Codable {
 
 struct ProviderTemplate: Hashable, Equatable {
     let name: String
-    let envVariables: [String: String]
+    let envVariables: [String: EnvValue]
     let icon: String
 
     static let zhipuAI = ProviderTemplate(
         name: String(localized: "Zhipu AI"),
         envVariables: [
-            "ANTHROPIC_BASE_URL": "https://open.bigmodel.cn/api/anthropic",
-            "ANTHROPIC_AUTH_TOKEN": "",
-            "ANTHROPIC_DEFAULT_HAIKU_MODEL": "glm-4.5-air",
-            "ANTHROPIC_DEFAULT_SONNET_MODEL": "glm-4.6",
-            "ANTHROPIC_DEFAULT_OPUS_MODEL": "glm-4.6"
+            "ANTHROPIC_BASE_URL": EnvValue(value: "https://open.bigmodel.cn/api/anthropic", type: .string),
+            "ANTHROPIC_AUTH_TOKEN": EnvValue(value: "", type: .string),
+            "ANTHROPIC_DEFAULT_HAIKU_MODEL": EnvValue(value: "glm-4.5-air", type: .string),
+            "ANTHROPIC_DEFAULT_SONNET_MODEL": EnvValue(value: "glm-4.6", type: .string),
+            "ANTHROPIC_DEFAULT_OPUS_MODEL": EnvValue(value: "glm-4.6", type: .string)
         ],
         icon: "ZhipuLogo"
     )
@@ -73,11 +99,11 @@ struct ProviderTemplate: Hashable, Equatable {
     static let zai = ProviderTemplate(
         name: "z.ai",
         envVariables: [
-            "ANTHROPIC_BASE_URL": "https://api.z.ai/api/anthropic",
-            "ANTHROPIC_AUTH_TOKEN": "",
-            "ANTHROPIC_DEFAULT_HAIKU_MODEL": "glm-4.5-air",
-            "ANTHROPIC_DEFAULT_SONNET_MODEL": "glm-4.6",
-            "ANTHROPIC_DEFAULT_OPUS_MODEL": "glm-4.6"
+            "ANTHROPIC_BASE_URL": EnvValue(value: "https://api.z.ai/api/anthropic", type: .string),
+            "ANTHROPIC_AUTH_TOKEN": EnvValue(value: "", type: .string),
+            "ANTHROPIC_DEFAULT_HAIKU_MODEL": EnvValue(value: "glm-4.5-air", type: .string),
+            "ANTHROPIC_DEFAULT_SONNET_MODEL": EnvValue(value: "glm-4.6", type: .string),
+            "ANTHROPIC_DEFAULT_OPUS_MODEL": EnvValue(value: "glm-4.6", type: .string)
         ],
         icon: "ZaiLogo"
     )
@@ -85,11 +111,11 @@ struct ProviderTemplate: Hashable, Equatable {
     static let moonshotAI = ProviderTemplate(
         name: String(localized: "Moonshot AI"),
         envVariables: [
-            "ANTHROPIC_BASE_URL": "https://api.moonshot.cn/anthropic",
-            "ANTHROPIC_AUTH_TOKEN": "",
-            "ANTHROPIC_DEFAULT_HAIKU_MODEL": "kimi-k2-turbo-preview",
-            "ANTHROPIC_DEFAULT_SONNET_MODEL": "kimi-k2-turbo-preview",
-            "ANTHROPIC_DEFAULT_OPUS_MODEL": "kimi-k2-turbo-preview"
+            "ANTHROPIC_BASE_URL": EnvValue(value: "https://api.moonshot.cn/anthropic", type: .string),
+            "ANTHROPIC_AUTH_TOKEN": EnvValue(value: "", type: .string),
+            "ANTHROPIC_DEFAULT_HAIKU_MODEL": EnvValue(value: "kimi-k2-turbo-preview", type: .string),
+            "ANTHROPIC_DEFAULT_SONNET_MODEL": EnvValue(value: "kimi-k2-turbo-preview", type: .string),
+            "ANTHROPIC_DEFAULT_OPUS_MODEL": EnvValue(value: "kimi-k2-turbo-preview", type: .string)
         ],
         icon: "MoonshotLogo"
     )
@@ -97,23 +123,37 @@ struct ProviderTemplate: Hashable, Equatable {
     static let streamLakeAI = ProviderTemplate(
         name: String(localized: "StreamLake"),
         envVariables: [
-            "ANTHROPIC_BASE_URL": "",
-            "ANTHROPIC_AUTH_TOKEN": "",
-            "ANTHROPIC_DEFAULT_HAIKU_MODEL": "KAT-Coder",
-            "ANTHROPIC_DEFAULT_SONNET_MODEL": "KAT-Coder",
-            "ANTHROPIC_DEFAULT_OPUS_MODEL": "KAT-Coder"
+            "ANTHROPIC_BASE_URL": EnvValue(value: "", type: .string),
+            "ANTHROPIC_AUTH_TOKEN": EnvValue(value: "", type: .string),
+            "ANTHROPIC_DEFAULT_HAIKU_MODEL": EnvValue(value: "KAT-Coder", type: .string),
+            "ANTHROPIC_DEFAULT_SONNET_MODEL": EnvValue(value: "KAT-Coder", type: .string),
+            "ANTHROPIC_DEFAULT_OPUS_MODEL": EnvValue(value: "KAT-Coder", type: .string)
         ],
         icon: "StreamLakeLogo"
+    )
+    
+    static let deepSeekAI = ProviderTemplate(
+        name: String(localized: "DeepSeek"),
+        envVariables: [
+            "ANTHROPIC_BASE_URL": EnvValue(value: "https://api.deepseek.com/anthropic", type: .string),
+            "ANTHROPIC_AUTH_TOKEN": EnvValue(value: "", type: .string),
+            "ANTHROPIC_DEFAULT_HAIKU_MODEL": EnvValue(value: "deepseek-chat", type: .string),
+            "ANTHROPIC_DEFAULT_SONNET_MODEL": EnvValue(value: "deepseek-chat", type: .string),
+            "ANTHROPIC_DEFAULT_OPUS_MODEL": EnvValue(value: "deepseek-chat", type: .string),
+            "API_TIMEOUT_MS": EnvValue(value: "600000", type: .integer),
+            "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": EnvValue(value: "1", type: .boolean)
+        ],
+        icon: "DeepSeekLogo"
     )
     
     static let otherAI = ProviderTemplate(
         name: String(localized: "Custom AI"),
         envVariables: [
-            "ANTHROPIC_BASE_URL": "",
-            "ANTHROPIC_AUTH_TOKEN": "",
-            "ANTHROPIC_DEFAULT_HAIKU_MODEL": "",
-            "ANTHROPIC_DEFAULT_SONNET_MODEL": "",
-            "ANTHROPIC_DEFAULT_OPUS_MODEL": ""
+            "ANTHROPIC_BASE_URL": EnvValue(value: "", type: .string),
+            "ANTHROPIC_AUTH_TOKEN": EnvValue(value: "", type: .string),
+            "ANTHROPIC_DEFAULT_HAIKU_MODEL": EnvValue(value: "", type: .string),
+            "ANTHROPIC_DEFAULT_SONNET_MODEL": EnvValue(value: "", type: .string),
+            "ANTHROPIC_DEFAULT_OPUS_MODEL": EnvValue(value: "", type: .string)
         ],
         icon: "OtherLogo"
     )
@@ -123,6 +163,7 @@ struct ProviderTemplate: Hashable, Equatable {
         zai,
         moonshotAI,
         streamLakeAI,
+        deepSeekAI,
         otherAI
     ]
 }
@@ -145,6 +186,8 @@ enum EnvKey: String, CaseIterable, Identifiable {
     case haikuModel = "ANTHROPIC_DEFAULT_HAIKU_MODEL"
     case sonnetModel = "ANTHROPIC_DEFAULT_SONNET_MODEL"
     case opusModel = "ANTHROPIC_DEFAULT_OPUS_MODEL"
+    case apiTimeout = "API_TIMEOUT_MS"
+    case disableTraffic = "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC"
 
     var id: String { rawValue }
 
@@ -160,6 +203,10 @@ enum EnvKey: String, CaseIterable, Identifiable {
             return "Sonnet Model"
         case .opusModel:
             return "Opus Model"
+        case .apiTimeout:
+            return "API Timeout (ms)"
+        case .disableTraffic:
+            return "Disable Non-essential Traffic"
         }
     }
 
@@ -175,6 +222,10 @@ enum EnvKey: String, CaseIterable, Identifiable {
             return "s.square.fill"
         case .opusModel:
             return "o.square.fill"
+        case .apiTimeout:
+            return "clock.fill"
+        case .disableTraffic:
+            return "network.slash"
         }
     }
 
@@ -190,6 +241,21 @@ enum EnvKey: String, CaseIterable, Identifiable {
             return "sonnet"
         case .opusModel:
             return "opus"
+        case .apiTimeout:
+            return "600000"
+        case .disableTraffic:
+            return "Enabled"
+        }
+    }
+
+    var valueType: EnvValueType {
+        switch self {
+        case .baseURL, .authToken, .haikuModel, .sonnetModel, .opusModel:
+            return .string
+        case .apiTimeout:
+            return .integer
+        case .disableTraffic:
+            return .boolean
         }
     }
 }

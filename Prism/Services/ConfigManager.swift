@@ -59,20 +59,20 @@ class ConfigManager {
         }
     }
 
-    func updateEnvVariables(_ envVars: [String: String]) -> Bool {
+    func updateEnvVariables(_ envVars: [String: EnvValue]) -> Bool {
         // Debug: Print what we're about to write
         print("🔧 Writing env variables to Claude config:")
-        for (key, value) in envVars {
+        for (key, envValue) in envVars {
             let displayValue = key == "ANTHROPIC_AUTH_TOKEN" ?
-                String(repeating: "*", count: min(value.count, 20)) : value
-            print("  \(key): \(displayValue)")
+                String(repeating: "*", count: min(envValue.value.count, 20)) : envValue.value
+            print("  \(key): \(displayValue) (type: \(envValue.type))")
         }
 
         // Read existing config to preserve all fields
         var config = readConfig() ?? [:]
 
         // Get existing env or create new one
-        var existingEnv = (config["env"] as? [String: String]) ?? [:]
+        var existingEnv = (config["env"] as? [String: Any]) ?? [:]
 
         // Define the keys we manage
         let managedKeys: Set<String> = [
@@ -80,7 +80,9 @@ class ConfigManager {
             "ANTHROPIC_AUTH_TOKEN",
             "ANTHROPIC_DEFAULT_HAIKU_MODEL",
             "ANTHROPIC_DEFAULT_SONNET_MODEL",
-            "ANTHROPIC_DEFAULT_OPUS_MODEL"
+            "ANTHROPIC_DEFAULT_OPUS_MODEL",
+            "API_TIMEOUT_MS",
+            "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC"
         ]
 
         // Remove our managed keys from existing env (we'll set them fresh)
@@ -88,9 +90,26 @@ class ConfigManager {
             existingEnv.removeValue(forKey: key)
         }
 
-        // Merge: keep non-managed env vars, add our managed ones
-        for (key, value) in envVars {
-            existingEnv[key] = value
+        // Merge: keep non-managed env vars, add our managed ones with proper type conversion
+        for (key, envValue) in envVars {
+            switch envValue.type {
+            case .string:
+                existingEnv[key] = envValue.value
+            case .integer:
+                if let intValue = Int(envValue.value) {
+                    existingEnv[key] = intValue
+                } else {
+                    print("⚠️ Warning: Failed to convert '\(envValue.value)' to integer for key '\(key)', storing as string")
+                    existingEnv[key] = envValue.value
+                }
+            case .boolean:
+                // Convert to 0/1 integer format for Claude Code compatibility
+                if envValue.value == "1" || envValue.value.lowercased() == "true" {
+                    existingEnv[key] = 1
+                } else {
+                    existingEnv[key] = 0
+                }
+            }
         }
 
         // Update config with merged env
@@ -99,9 +118,44 @@ class ConfigManager {
         return writeConfig(config)
     }
 
-    func getCurrentEnvVariables() -> [String: String] {
+    func getCurrentEnvVariables() -> [String: EnvValue] {
         guard let config = readConfig() else { return [:] }
-        return (config["env"] as? [String: String]) ?? [:]
+        guard let env = config["env"] as? [String: Any] else { return [:] }
+
+        // Convert [String: Any] to [String: EnvValue]
+        var result: [String: EnvValue] = [:]
+        for (key, value) in env {
+            // Determine type based on EnvKey enum, default to string
+            let valueType: EnvValueType
+            if let envKey = EnvKey(rawValue: key) {
+                valueType = envKey.valueType
+            } else {
+                // Custom variable: infer type from value
+                if value is Int {
+                    valueType = .integer
+                } else if value is Bool {
+                    valueType = .boolean
+                } else {
+                    valueType = .string
+                }
+            }
+
+            // Convert value to string
+            let stringValue: String
+            if let intValue = value as? Int {
+                stringValue = String(intValue)
+            } else if let boolValue = value as? Bool {
+                stringValue = boolValue ? "1" : "0"
+            } else if let strValue = value as? String {
+                stringValue = strValue
+            } else {
+                stringValue = "\(value)"
+            }
+
+            result[key] = EnvValue(value: stringValue, type: valueType)
+        }
+
+        return result
     }
 
     func debugPrintCurrentEnvVariables() {
@@ -112,10 +166,10 @@ class ConfigManager {
         }
 
         print("🔍 Current Claude Code env variables:")
-        for (key, value) in envVars {
+        for (key, envValue) in envVars {
             let displayValue = key == "ANTHROPIC_AUTH_TOKEN" ?
-                String(repeating: "*", count: min(value.count, 20)) : value
-            print("  \(key): \(displayValue)")
+                String(repeating: "*", count: min(envValue.value.count, 20)) : envValue.value
+            print("  \(key): \(displayValue) (type: \(envValue.type))")
         }
     }
 
@@ -124,7 +178,7 @@ class ConfigManager {
         var config = readConfig() ?? [:]
 
         // Get existing env or create new one
-        var existingEnv = (config["env"] as? [String: String]) ?? [:]
+        var existingEnv = (config["env"] as? [String: Any]) ?? [:]
 
         // Define the keys we manage
         let managedKeys: Set<String> = [
@@ -132,7 +186,9 @@ class ConfigManager {
             "ANTHROPIC_AUTH_TOKEN",
             "ANTHROPIC_DEFAULT_HAIKU_MODEL",
             "ANTHROPIC_DEFAULT_SONNET_MODEL",
-            "ANTHROPIC_DEFAULT_OPUS_MODEL"
+            "ANTHROPIC_DEFAULT_OPUS_MODEL",
+            "API_TIMEOUT_MS",
+            "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC"
         ]
 
         // Remove only our managed keys, keep others

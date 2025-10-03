@@ -84,6 +84,22 @@
         }
       }
     },
+    "123" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "123"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "123"
+          }
+        }
+      }
+    },
     "Access Granted!" : {
       "comment" : "Permission granted status",
       "localizations" : {
@@ -97,6 +113,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "存取權限已授予！"
+          }
+        }
+      }
+    },
+    "Add Custom Variable" : {
+      "comment" : "Button to add custom environment variable",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加自定义变量"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "新增自訂變數"
           }
         }
       }
@@ -131,6 +164,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "新增您的第一個 API 服務商開始使用"
+          }
+        }
+      }
+    },
+    "API Timeout (ms)" : {
+      "comment" : "API timeout field label",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "API 超时时间 (毫秒)"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "API 逾時時間 (毫秒)"
           }
         }
       }
@@ -184,6 +235,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "API 端點"
+          }
+        }
+      }
+    },
+    "Boolean" : {
+      "comment" : "Boolean type label",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "布尔值"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "布林值"
           }
         }
       }
@@ -273,6 +341,57 @@
         }
       }
     },
+    "Custom Variables" : {
+      "comment" : "Custom environment variables section title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定义变量"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自訂變數"
+          }
+        }
+      }
+    },
+    "CUSTOM_ENV_KEY" : {
+      "comment" : "Custom environment key placeholder",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定义环境变量"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自訂環境變數"
+          }
+        }
+      }
+    },
+    "DeepSeek" : {
+      "comment" : "DeepSeek provider name",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深度求索"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "深度求索"
+          }
+        }
+      }
+    },
     "Delete" : {
       "comment" : "Delete button",
       "localizations" : {
@@ -307,6 +426,24 @@
         }
       }
     },
+    "Disable Non-essential Traffic" : {
+      "comment" : "Disable non-essential traffic field label",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用非必要流量"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "停用非必要流量"
+          }
+        }
+      }
+    },
     "Edit Provider" : {
       "comment" : "Title for editing an existing provider",
       "localizations" : {
@@ -320,6 +457,24 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "編輯 API 服務商"
+          }
+        }
+      }
+    },
+    "Enabled" : {
+      "comment" : "Enabled status for boolean field",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已启用"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "已啟用"
           }
         }
       }
@@ -462,6 +617,23 @@
         }
       }
     },
+    "Integer" : {
+      "comment" : "Integer type label",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "整数"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "整數"
+          }
+        }
+      }
+    },
     "Invalid Directory" : {
       "comment" : "Error alert title",
       "localizations" : {
@@ -560,6 +732,23 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "月之暗面"
+          }
+        }
+      }
+    },
+    "Must be a valid integer" : {
+      "comment" : "Integer validation error message",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "必须是有效的整数"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "必須是有效的整數"
           }
         }
       }
@@ -957,6 +1146,23 @@
         }
       }
     },
+    "String" : {
+      "comment" : "String type label",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "字符串"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "字串"
+          }
+        }
+      }
+    },
     "Success!" : {
       "comment" : "Success status message",
       "localizations" : {
@@ -1055,6 +1261,40 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "API 密鑰已被「%@」使用（相同端點）"
+          }
+        }
+      }
+    },
+    "Type" : {
+      "comment" : "Type field label",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "类型"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "類型"
+          }
+        }
+      }
+    },
+    "value" : {
+      "comment" : "Value placeholder (lowercase)",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "值"
+          }
+        },
+        "zh-HK" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "值"
           }
         }
       }

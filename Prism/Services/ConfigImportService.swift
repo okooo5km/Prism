@@ -22,7 +22,7 @@ class ConfigImportService {
     func syncConfigurationState() -> Bool {
         let currentEnv = configManager.getCurrentEnvVariables()
 
-        guard let configToken = currentEnv["ANTHROPIC_AUTH_TOKEN"], !configToken.isEmpty else {
+        guard let configToken = currentEnv["ANTHROPIC_AUTH_TOKEN"]?.value, !configToken.isEmpty else {
             // No token in config - deactivate all providers if any are active
             if providerStore.activeProvider != nil {
                 print("🔄 Config has no token, deactivating all providers")
@@ -36,7 +36,7 @@ class ConfigImportService {
         let activeProviderID = providerStore.savedActiveProviderID
         if !activeProviderID.isEmpty, let activeUUID = UUID(uuidString: activeProviderID) {
             if let activeProvider = providerStore.providers.first(where: { $0.id == activeUUID }) {
-                let providerToken = activeProvider.envVariables["ANTHROPIC_AUTH_TOKEN"] ?? ""
+                let providerToken = activeProvider.envVariables["ANTHROPIC_AUTH_TOKEN"]?.value ?? ""
 
                 if providerToken == configToken {
                     // Config matches active provider
@@ -49,7 +49,7 @@ class ConfigImportService {
 
         // Config changed - find matching provider
         for provider in providerStore.providers {
-            let providerToken = provider.envVariables["ANTHROPIC_AUTH_TOKEN"] ?? ""
+            let providerToken = provider.envVariables["ANTHROPIC_AUTH_TOKEN"]?.value ?? ""
             if providerToken == configToken {
                 print("🔄 Activating provider based on config change: \(provider.name)")
                 providerStore.activateProvider(provider)
@@ -58,7 +58,7 @@ class ConfigImportService {
         }
 
         // No matching provider - create new one (same as Phase 3 in startup)
-        let configBaseURL = currentEnv["ANTHROPIC_BASE_URL"] ?? ""
+        let configBaseURL = currentEnv["ANTHROPIC_BASE_URL"]?.value ?? ""
         if !configBaseURL.isEmpty {
             if let matchedTemplate = findMatchingTemplate(baseURL: configBaseURL, env: currentEnv) {
                 print("🔄 Creating provider from config change (template): \(matchedTemplate.name)")
@@ -88,12 +88,12 @@ class ConfigImportService {
         configManager.debugPrintCurrentEnvVariables()
 
         // Check if we have any configuration
-        guard let configToken = currentEnv["ANTHROPIC_AUTH_TOKEN"], !configToken.isEmpty else {
+        guard let configToken = currentEnv["ANTHROPIC_AUTH_TOKEN"]?.value, !configToken.isEmpty else {
             print("❌ No auth token found in Claude Code configuration")
             return
         }
 
-        let configBaseURL = currentEnv["ANTHROPIC_BASE_URL"] ?? ""
+        let configBaseURL = currentEnv["ANTHROPIC_BASE_URL"]?.value ?? ""
         print("✅ Found valid configuration")
         print("📡 Base URL: \(configBaseURL)")
         print("🔑 Auth Token: \(String(repeating: "*", count: min(configToken.count, 20)))")
@@ -104,7 +104,7 @@ class ConfigImportService {
             print("🔍 Phase 1: Checking activeProviderID: \(activeProviderID)")
 
             if let activeProvider = providerStore.providers.first(where: { $0.id == activeUUID }) {
-                let providerToken = activeProvider.envVariables["ANTHROPIC_AUTH_TOKEN"] ?? ""
+                let providerToken = activeProvider.envVariables["ANTHROPIC_AUTH_TOKEN"]?.value ?? ""
 
                 if providerToken == configToken {
                     print("✅ Active provider matches config token")
@@ -126,7 +126,7 @@ class ConfigImportService {
         // Phase 2: Match token across all providers
         print("🔍 Phase 2: Matching token across all providers")
         for provider in providerStore.providers {
-            let providerToken = provider.envVariables["ANTHROPIC_AUTH_TOKEN"] ?? ""
+            let providerToken = provider.envVariables["ANTHROPIC_AUTH_TOKEN"]?.value ?? ""
             if providerToken == configToken {
                 print("✅ Found matching provider: \(provider.name)")
                 if !provider.isActive {
@@ -158,12 +158,12 @@ class ConfigImportService {
         }
     }
 
-    private func findMatchingTemplate(baseURL: String, env: [String: String]) -> ProviderTemplate? {
+    private func findMatchingTemplate(baseURL: String, env: [String: EnvValue]) -> ProviderTemplate? {
         print("🔍 Checking templates against baseURL: \(baseURL)")
-        print("🔐 Available token: \(env["ANTHROPIC_AUTH_TOKEN"]?.isEmpty == false ? "Yes" : "No")")
+        print("🔐 Available token: \(env["ANTHROPIC_AUTH_TOKEN"]?.value.isEmpty == false ? "Yes" : "No")")
 
         for template in ProviderTemplate.allTemplates {
-            if let templateURL = template.envVariables["ANTHROPIC_BASE_URL"] {
+            if let templateURL = template.envVariables["ANTHROPIC_BASE_URL"]?.value {
                 print("📋 Template '\(template.name)' has URL: \(templateURL)")
 
                 // Try exact matching first
@@ -215,7 +215,7 @@ class ConfigImportService {
         return nil
     }
 
-    private func isValidProviderForTemplate(baseURL: String, template: ProviderTemplate, env: [String: String]) -> Bool {
+    private func isValidProviderForTemplate(baseURL: String, template: ProviderTemplate, env: [String: EnvValue]) -> Bool {
         // For Zhipu AI, validate the URL pattern and token format
         if template.name == "Zhipu AI" {
             // Zhipu AI should have the specific base URL
@@ -224,7 +224,7 @@ class ConfigImportService {
             }
 
             // Token should be in expected format (length and pattern)
-            guard let token = env["ANTHROPIC_AUTH_TOKEN"] else { return false }
+            guard let token = env["ANTHROPIC_AUTH_TOKEN"]?.value else { return false }
 
             // Zhipu AI tokens are typically 32 chars + ".W7Gu3qS0k5isSImL" pattern
             return token.count >= 20
@@ -238,7 +238,7 @@ class ConfigImportService {
             }
 
             // Token should be present and reasonably long
-            guard let token = env["ANTHROPIC_AUTH_TOKEN"] else { return false }
+            guard let token = env["ANTHROPIC_AUTH_TOKEN"]?.value else { return false }
             return token.count >= 10
         }
 
