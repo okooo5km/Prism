@@ -114,11 +114,11 @@ struct ContentView: View {
                         ))
                 }
 
-                Text(viewModel.activeProvider?.name ?? "Default")
+                Text(viewModel.activeProvider?.name ?? String(localized: "Claude Default"))
                     .font(.title2)
                     .fontWeight(.bold)
                     .foregroundStyle(.primary)
-                    .id(viewModel.activeProvider?.id.uuidString ?? "default") // Force view refresh for animation
+                    .id(viewModel.activeProvider?.id.uuidString ?? String(localized: "Claude Default")) // Force view refresh for animation
                     .transition(.asymmetric(
                         insertion: .scale(scale: 0.8).combined(with: .opacity),
                         removal: .scale(scale: 1.2).combined(with: .opacity)

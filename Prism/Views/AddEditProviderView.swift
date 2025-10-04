@@ -80,6 +80,8 @@ struct AddEditProviderView: View {
                 }) {
                     Image(systemName: "chevron.backward")
                         .font(.title2)
+                        .padding(2)
+                        .background(.background.opacity(0.001))
                 }
                 .buttonStyle(.plain)
                 
