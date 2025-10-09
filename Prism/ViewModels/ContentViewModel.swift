@@ -38,10 +38,8 @@ class ContentViewModel {
 
     // Computed Properties
     var isDefaultActive: Bool {
-        let currentEnv = configManager.getCurrentEnvVariables()
-        let hasBaseURL = !(currentEnv["ANTHROPIC_BASE_URL"]?.value ?? "").isEmpty
-        let hasAuthToken = !(currentEnv["ANTHROPIC_AUTH_TOKEN"]?.value ?? "").isEmpty
-        return !hasBaseURL && !hasAuthToken
+        // Default is active when no provider is active
+        return activeProvider == nil
     }
 
     var activeProvider: Provider? {
