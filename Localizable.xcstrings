@@ -781,6 +781,17 @@
         }
       }
     },
+    "Provider Template" : {
+      "comment" : "Template picker field label",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "服务商模板"
+          }
+        }
+      }
+    },
     "Quit Prism now?" : {
       "comment" : "Quit confirmation message",
       "localizations" : {
@@ -821,6 +832,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "选择 .claude 目录"
+          }
+        }
+      }
+    },
+    "Select Template" : {
+      "comment" : "Template picker placeholder text",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "选择模板"
           }
         }
       }

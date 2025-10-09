@@ -1,5 +1,5 @@
 //
-//  HorizontalTemplatePicker.swift
+//  TemplatePicker.swift
 //  Prism
 //
 //  Created by okooo5km(十里) on 2025/10/02.
@@ -7,37 +7,44 @@
 
 import SwiftUI
 
-struct HorizontalTemplatePicker: View {
+struct TemplatePicker: View {
     @Binding var selection: ProviderTemplate?
     let templates: [ProviderTemplate]
 
     var body: some View {
-        ScrollView(.horizontal, showsIndicators: false) {
-            HStack(spacing: 8) {
+        ScrollView(.vertical, showsIndicators: false) {
+            VStack(spacing: 8) {
                 ForEach(templates, id: \.name) { template in
                     Button(action: {
                         withAnimation(.easeInOut(duration: 0.2)) {
                             selection = template
                         }
                     }) {
-                        HStack(spacing: 6) {
+                        HStack(spacing: 8) {
                             Image(template.icon)
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 16, height: 16)
+                                .frame(width: 18, height: 18)
 
                             Text(template.name)
-                                .font(.caption)
+                                .font(.subheadline)
                                 .fontWeight(.medium)
+                            
+                            Spacer()
+                            
+                            if template.name == selection?.name {
+                                Image(systemName: "checkmark.circle.fill")
+                            }
                         }
                         .styledContainer(style: isSelected(template) ? .selected : .notSelected)
                     }
                     .buttonStyle(.plain)
                 }
             }
-            .padding(.horizontal, 2)
+            .padding(8)
         }
-        .clipped()
+        .frame(maxHeight: 320)
+        .focusable(false)
     }
 
     private func isSelected(_ template: ProviderTemplate) -> Bool {

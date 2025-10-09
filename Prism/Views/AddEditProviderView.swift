@@ -125,7 +125,9 @@ struct AddEditProviderView: View {
 
                     // Provider Template Picker
                     if provider == nil {
-                        HorizontalTemplatePicker(
+                        DetailTemplatePickerCardView(
+                            title: LocalizedStringKey("Provider Template"),
+                            systemImage: "square.grid.2x2",
                             selection: $selectedTemplate,
                             templates: ProviderTemplate.allTemplates
                         )
@@ -152,41 +154,6 @@ struct AddEditProviderView: View {
                                 templateDocLink = newTemplate.docLink
                             }
                         }
-                    }
-
-                    // Documentation Link (if available)
-                    if let docLink = templateDocLink {
-                        Button(action: {
-                            if let url = URL(string: docLink) {
-                                NSWorkspace.shared.open(url)
-                            }
-                        }) {
-                            HStack(spacing: 6) {
-                                Image(systemName: "book.fill")
-                                    .font(.caption)
-                                Text("View Documentation")
-                                    .font(.caption)
-                                Spacer()
-                                Image(systemName: "arrow.up.right")
-                                    .font(.caption2)
-                            }
-                            .foregroundStyle(
-                                LinearGradient(colors: [Color(hex: "#55AAEF") ?? .blue, .blue], startPoint: .top, endPoint: .bottom)
-                            )
-                            .padding(8)
-                            .background(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .fill(.blue.opacity(0.08))
-                            )
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 8)
-                                    .strokeBorder(
-                                        .blue.opacity(0.2),
-                                        lineWidth: 1
-                                    )
-                            )
-                        }
-                        .buttonStyle(.plain)
                     }
 
                     // Provider Information

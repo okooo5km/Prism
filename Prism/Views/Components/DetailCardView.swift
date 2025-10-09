@@ -676,7 +676,7 @@ struct DetailNilCardView: View {
     let systemImage: String
     var isEditing: Bool = false
     let action: () -> Void
-    
+
     var body: some View {
         HStack(spacing: 4) {
             Image(systemName: systemImage)
@@ -686,7 +686,7 @@ struct DetailNilCardView: View {
                     .foregroundStyle(.blue)
             }
             Spacer()
-            
+
             Button(action: action, label: {
                 HStack(spacing: 4) {
                     Image(systemName: "plus")
@@ -702,6 +702,87 @@ struct DetailNilCardView: View {
         }
         .font(.subheadline)
         .foregroundStyle(.tertiary)
+        .padding(8)
+        .background(cornerRadius: 12, strokeColor: .primary.opacity(0.08), fill: .background.opacity(0.6))
+    }
+}
+
+struct DetailTemplatePickerCardView: View {
+
+    let title: LocalizedStringKey
+    let systemImage: String
+    @Binding var selection: ProviderTemplate?
+    let templates: [ProviderTemplate]
+
+    @State private var showingPicker = false
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            HStack(spacing: 4) {
+                Image(systemName: systemImage)
+                Text(title)
+                Spacer()
+
+                // Documentation link button
+                if let docLink = selection?.docLink {
+                    Button(action: {
+                        if let url = URL(string: docLink) {
+                            NSWorkspace.shared.open(url)
+                        }
+                    }) {
+                        Label("View Documentation", systemImage: "book.fill")
+                            .font(.caption)
+                    }
+                    .buttonStyle(.plain)
+                    .help("View Documentation")
+                }
+            }
+            .font(.subheadline)
+            .foregroundStyle(.tertiary)
+
+            Button(action: {
+                showingPicker = true
+            }) {
+                HStack(spacing: 8) {
+                    if let template = selection {
+                        Image(template.icon)
+                            .resizable()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 16, height: 16)
+
+                        Text(template.name)
+                            .font(.caption)
+                            .foregroundStyle(.primary)
+                    } else {
+                        Text("Select Template")
+                            .font(.caption)
+                            .foregroundStyle(.secondary)
+                    }
+
+                    Spacer()
+
+                    Image(systemName: "chevron.up.chevron.down")
+                        .font(.caption2)
+                        .foregroundStyle(.tertiary)
+                }
+                .padding(.horizontal, 8)
+                .padding(.vertical, 6)
+                .frame(height: 28)
+                .background(cornerRadius: 8, strokeColor: .primary.opacity(0.04), fill: .background)
+            }
+            .buttonStyle(.plain)
+            .popover(isPresented: $showingPicker, arrowEdge: .bottom) {
+                TemplatePicker(
+                    selection: $selection,
+                    templates: templates
+                )
+                .frame(width: 320)
+            }
+            .onChange(of: selection) { _, _ in
+                // Close popover when selection changes
+                showingPicker = false
+            }
+        }
         .padding(8)
         .background(cornerRadius: 12, strokeColor: .primary.opacity(0.08), fill: .background.opacity(0.6))
     }
