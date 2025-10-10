@@ -26,12 +26,11 @@ xcodebuild -project Prism.xcodeproj -scheme Prism -configuration Debug build 2>&
 
 1. **App Launch** → `AppDelegate.applicationDidFinishLaunching`
    - Uses `MenuBarExtra` (not custom NSPopover) with `.window` style
-   - `SandboxAccessManager.shared.checkAccess()` checks file permissions first
-   - If access granted: `ConfigImportService.shared.syncConfigurationOnStartup()` performs three-phase validation (delayed 0.5s):
+   - `ConfigImportService.shared.syncConfigurationOnStartup()` performs three-phase validation (delayed 0.5s):
      - Phase 1: Check activeProviderID, validate token consistency
      - Phase 2: If inconsistent, match token across all providers
      - Phase 3: If no match, create new provider from template
-   - If no access: MenuBarExtra shows `PermissionRequestView` instead of `ContentView`
+   - ConfigManager automatically creates `~/.claude/settings.json` if it doesn't exist
 
 2. **Menu Opens** → `ContentView.onAppear`
    - `ConfigImportService.shared.syncConfigurationState()` detects external config changes
@@ -55,38 +54,20 @@ xcodebuild -project Prism.xcodeproj -scheme Prism -configuration Debug build 2>&
    - User providers: `ProviderStore` → UserDefaults (key: "saved_providers")
    - Active provider ID: `ProviderStore` → UserDefaults (key: "active_provider_id")
    - Claude Code config: `ConfigManager` → `~/.claude/settings.json` (only `env` key)
-   - Sandbox access bookmark: `SandboxAccessManager` → UserDefaults (key: "claude_settings_bookmark")
 
-### Sandbox File Access Management
+### Configuration File Management
 
-**App Sandbox**: Prism runs in a sandboxed environment with `com.apple.security.files.user-selected.read-write` entitlement.
+**ConfigManager** directly accesses `~/.claude/settings.json` without sandbox restrictions:
 
-**SandboxAccessManager**: Manages persistent access to `~/.claude` directory using Security-Scoped Bookmarks:
+1. **Automatic Initialization**:
+   - Checks if `~/.claude` directory exists, creates it if needed
+   - Checks if `settings.json` exists, creates empty JSON file if needed
+   - Called automatically on every read/write operation via `ensureConfigExists()`
 
-1. **Permission Check** (App Launch):
-   - Uses `resolveBookmark()` private method to restore bookmark from UserDefaults
-   - Validates bookmark staleness and tests directory accessibility
-   - `performAccessCheck()` performs the actual check without side effects
-
-2. **Permission Request** (No Access):
-   - Shows independent `PermissionWindow` (NSWindow with floating level)
-   - Opens NSOpenPanel with `showsHiddenFiles = true`
-   - Opens home directory with hidden files visible (NSOpenPanel cannot open hidden directories directly)
-   - User selects `.claude` directory
-   - Creates and saves Security-Scoped Bookmark to UserDefaults
-
-3. **Secure File Access**:
-   - All `ConfigManager` operations use `SandboxAccessManager.withSecureAccess { directoryURL in }`
-   - Uses `resolveBookmark()` to get directory URL (eliminates code duplication)
-   - Automatically calls `startAccessingSecurityScopedResource()` / `stopAccessingSecurityScopedResource()`
-   - Ensures proper resource cleanup with defer statements
-
-**UI Flow**:
-- If no access: AppDelegate shows independent `PermissionWindow` on startup
-- After granting access: Window closes, posts `.permissionGranted` notification
-- AppDelegate receives notification and syncs configuration
-- Bookmark persists across app launches
-- MenuBarExtra always shows `ContentView` (permission handled before menu interaction)
+2. **Backup Strategy**:
+   - Creates `.backup` file before every write operation
+   - Restores from backup if write operation fails
+   - Ensures data safety during configuration updates
 
 ### State Management with @Observable
 

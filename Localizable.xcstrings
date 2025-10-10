@@ -43,34 +43,12 @@
         }
       }
     },
-    "~/.claude/settings.json" : {
-      "comment" : "Configuration file path",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "~/.claude/settings.json"
-          }
-        }
-      }
-    },
     "123" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "123"
-          }
-        }
-      }
-    },
-    "Access Granted!" : {
-      "comment" : "Permission granted status",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "访问权限已授予！"
           }
         }
       }
@@ -211,17 +189,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "Claude 默认"
-          }
-        }
-      }
-    },
-    "Click \"Grant Access\" button" : {
-      "comment" : "Permission help step 3",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "点击 \"授予访问权限\" 按钮"
           }
         }
       }
@@ -378,61 +345,6 @@
         }
       }
     },
-    "Failed to save directory access permission" : {
-      "comment" : "Error alert message",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "无法保存目录访问权限"
-          }
-        }
-      }
-    },
-    "File Access Required" : {
-      "comment" : "Permission request title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "需要文件访问权限"
-          }
-        }
-      }
-    },
-    "Grant Access" : {
-      "comment" : "File picker button",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "授予访问权限"
-          }
-        }
-      }
-    },
-    "Grant access to .claude directory" : {
-      "comment" : "File picker title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "授予 .claude 目录访问权限"
-          }
-        }
-      }
-    },
-    "Granting Access..." : {
-      "comment" : "Permission granting in progress",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "正在授予访问权限..."
-          }
-        }
-      }
-    },
     "Haiku Model" : {
       "comment" : "Haiku model field label",
       "extractionState" : "manual",
@@ -452,17 +364,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "整数"
-          }
-        }
-      }
-    },
-    "Invalid Directory" : {
-      "comment" : "Error alert title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "无效目录"
           }
         }
       }
@@ -577,13 +478,12 @@
         }
       }
     },
-    "Navigate to ~/.claude directory" : {
-      "comment" : "Permission help step 1",
+    "New Version" : {
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "导航到 ~/.claude 目录"
+            "value" : "新版本"
           }
         }
       }
@@ -654,17 +554,6 @@
         }
       }
     },
-    "OK" : {
-      "comment" : "OK button",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "好"
-          }
-        }
-      }
-    },
     "Opus Model" : {
       "comment" : "Opus model field label",
       "extractionState" : "manual",
@@ -704,28 +593,6 @@
         }
       }
     },
-    "Permission Error" : {
-      "comment" : "Error alert title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "权限错误"
-          }
-        }
-      }
-    },
-    "Please select .claude directory" : {
-      "comment" : "Error alert message",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "请选择 .claude 目录"
-          }
-        }
-      }
-    },
     "Prism" : {
       "comment" : "App name",
       "localizations" : {
@@ -737,38 +604,8 @@
         }
       }
     },
-    "Prism needs access to Claude Code configuration directory:" : {
-      "comment" : "Permission request description",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prism 需要访问 Claude Code 配置目录："
-          }
-        }
-      }
-    },
-    "Prism needs access to Claude Code configuration file:" : {
-      "comment" : "Permission request description (legacy)",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prism 需要访问 Claude Code 配置文件："
-          }
-        }
-      }
-    },
     "Prism v%@" : {
-      "comment" : "App version display format",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "Prism v%@"
-          }
-        }
-      }
+      "comment" : "App version display format"
     },
     "Provider Name" : {
       "comment" : "Provider name field label",
@@ -825,17 +662,6 @@
         }
       }
     },
-    "Select .claude directory" : {
-      "comment" : "Permission help step 2",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "选择 .claude 目录"
-          }
-        }
-      }
-    },
     "Select Template" : {
       "comment" : "Template picker placeholder text",
       "localizations" : {
@@ -877,39 +703,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "字符串"
-          }
-        }
-      }
-    },
-    "Success!" : {
-      "comment" : "Success status message",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "成功！"
-          }
-        }
-      }
-    },
-    "The Window will be closed" : {
-      "comment" : "Window closing notice",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "窗口即将关闭"
-          }
-        }
-      }
-    },
-    "This allows Prism to switch API providers for you." : {
-      "comment" : "Permission request help text",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "这样 Prism 就可以为您切换 API 服务商。"
           }
         }
       }
@@ -1013,17 +806,6 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "查看文档"
-          }
-        }
-      }
-    },
-    "What happens next:" : {
-      "comment" : "Permission help section title",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "接下来会发生什么："
           }
         }
       }

@@ -9,23 +9,65 @@ import Foundation
 
 @Observable
 class ConfigManager {
-    private let sandboxManager = SandboxAccessManager.shared
-
     // Use raw JSON dictionary to preserve all config keys
     typealias ClaudeConfig = [String: Any]
 
-    func readConfig() -> ClaudeConfig? {
-        do {
-            return try sandboxManager.withSecureAccess { directoryURL in
-                let configURL = directoryURL.appendingPathComponent("settings.json")
-                guard FileManager.default.fileExists(atPath: configURL.path) else {
-                    return nil
-                }
+    private var configDirectory: URL {
+        FileManager.default.homeDirectoryForCurrentUser
+            .appendingPathComponent(".claude")
+    }
 
-                let data = try Data(contentsOf: configURL)
-                let config = try JSONSerialization.jsonObject(with: data) as? [String: Any]
-                return config
+    private var configURL: URL {
+        configDirectory.appendingPathComponent("settings.json")
+    }
+
+    private var backupURL: URL {
+        configDirectory.appendingPathComponent("settings.json.backup")
+    }
+
+    // Ensure config directory and file exist
+    private func ensureConfigExists() {
+        let fileManager = FileManager.default
+
+        // Create directory if it doesn't exist
+        if !fileManager.fileExists(atPath: configDirectory.path) {
+            do {
+                try fileManager.createDirectory(at: configDirectory, withIntermediateDirectories: true)
+                print("✅ Created .claude directory at \(configDirectory.path)")
+            } catch {
+                print("❌ Failed to create .claude directory: \(error)")
+                return
             }
+        }
+
+        // Create empty settings.json if it doesn't exist
+        if !fileManager.fileExists(atPath: configURL.path) {
+            do {
+                let emptyConfig: [String: Any] = [:]
+                let data = try JSONSerialization.data(
+                    withJSONObject: emptyConfig,
+                    options: [.prettyPrinted, .withoutEscapingSlashes]
+                )
+                try data.write(to: configURL)
+                print("✅ Created empty settings.json at \(configURL.path)")
+            } catch {
+                print("❌ Failed to create settings.json: \(error)")
+            }
+        }
+    }
+
+    func readConfig() -> ClaudeConfig? {
+        // Ensure directory and file exist
+        ensureConfigExists()
+
+        do {
+            guard FileManager.default.fileExists(atPath: configURL.path) else {
+                return nil
+            }
+
+            let data = try Data(contentsOf: configURL)
+            let config = try JSONSerialization.jsonObject(with: data) as? [String: Any]
+            return config
         } catch {
             print("Failed to read Claude config: \(error)")
             return nil
@@ -33,24 +75,20 @@ class ConfigManager {
     }
 
     func writeConfig(_ config: ClaudeConfig) -> Bool {
+        // Ensure directory and file exist
+        ensureConfigExists()
+
         // Create backup before writing
         createBackup()
 
         do {
-            return try sandboxManager.withSecureAccess { directoryURL in
-                let configURL = directoryURL.appendingPathComponent("settings.json")
+            let data = try JSONSerialization.data(
+                withJSONObject: config,
+                options: [.prettyPrinted, .withoutEscapingSlashes]
+            )
 
-                let data = try JSONSerialization.data(
-                    withJSONObject: config,
-                    options: [.prettyPrinted, .withoutEscapingSlashes]
-                )
-
-                // Ensure directory exists
-                try FileManager.default.createDirectory(at: directoryURL, withIntermediateDirectories: true)
-
-                try data.write(to: configURL)
-                return true
-            }
+            try data.write(to: configURL)
+            return true
         } catch {
             print("Failed to write Claude config: \(error)")
             // Restore backup if write failed
@@ -185,37 +223,33 @@ class ConfigManager {
     }
 
     private func createBackup() {
+        let fileManager = FileManager.default
+
         do {
-            try sandboxManager.withSecureAccess { directoryURL in
-                let configURL = directoryURL.appendingPathComponent("settings.json")
-                let backupURL = directoryURL.appendingPathComponent("settings.json.backup")
+            guard fileManager.fileExists(atPath: configURL.path) else { return }
 
-                guard FileManager.default.fileExists(atPath: configURL.path) else { return }
-
-                // Remove existing backup if it exists
-                if FileManager.default.fileExists(atPath: backupURL.path) {
-                    try FileManager.default.removeItem(at: backupURL)
-                }
-                // Create new backup
-                try FileManager.default.copyItem(at: configURL, to: backupURL)
+            // Remove existing backup if it exists
+            if fileManager.fileExists(atPath: backupURL.path) {
+                try fileManager.removeItem(at: backupURL)
             }
+            // Create new backup
+            try fileManager.copyItem(at: configURL, to: backupURL)
         } catch {
             print("Failed to create backup: \(error)")
         }
     }
 
     private func restoreBackup() {
+        let fileManager = FileManager.default
+
         do {
-            try sandboxManager.withSecureAccess { directoryURL in
-                let configURL = directoryURL.appendingPathComponent("settings.json")
-                let backupURL = directoryURL.appendingPathComponent("settings.json.backup")
+            guard fileManager.fileExists(atPath: backupURL.path) else { return }
 
-                guard FileManager.default.fileExists(atPath: backupURL.path) else { return }
-
-                try FileManager.default.removeItem(at: configURL)
-                try FileManager.default.copyItem(at: backupURL, to: configURL)
-                try FileManager.default.removeItem(at: backupURL)
+            if fileManager.fileExists(atPath: configURL.path) {
+                try fileManager.removeItem(at: configURL)
             }
+            try fileManager.copyItem(at: backupURL, to: configURL)
+            try fileManager.removeItem(at: backupURL)
         } catch {
             print("Failed to restore backup: \(error)")
         }

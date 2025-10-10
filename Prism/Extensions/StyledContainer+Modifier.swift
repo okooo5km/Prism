@@ -79,6 +79,16 @@ struct StyledContainerStyle {
         borderGradient: [.primary.opacity(0.06), .primary.opacity(0.06)],
         borderWidth: 1
     )
+    
+    static let newVersion = StyledContainerStyle(
+        cornerRadius: 8,
+        foregroundStyle: .white,
+        paddingVertical: 3,
+        paddingHorizontal: 6,
+        backgroundGradient: [Color(hex: "#55AAEF") ?? .blue, .blue],
+        borderGradient: [.white.opacity(0.5), .white.opacity(0.12)],
+        borderWidth: 1
+    )
 }
 
 struct StyledContainerModifier: ViewModifier {

@@ -6,6 +6,7 @@
 //
 
 import SwiftUI
+import Sparkle
 
 @main
 struct PrismApp: App {
@@ -24,50 +25,35 @@ struct PrismApp: App {
 }
 
 class AppDelegate: NSObject, NSApplicationDelegate {
-    private var permissionWindow: PermissionWindow?
-
+    
+    let updaterController = SPUStandardUpdaterController(startingUpdater: true,
+                                                         updaterDelegate: nil,
+                                                         userDriverDelegate: nil)
+    
     func applicationDidFinishLaunching(_ notification: Notification) {
-        // Check sandbox access first
-        let hasAccess = SandboxAccessManager.shared.checkAccess()
-
-        if hasAccess {
-            // Sync configuration on app startup if we have access
-            DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
-                ConfigImportService.shared.syncConfigurationOnStartup()
-            }
-        } else {
-            // Show permission request window
-            print("⚠️ No access to settings.json, showing permission request window")
-            showPermissionWindow()
+        
+        UpdaterViewModel.shared.updaterController = updaterController
+        // 可选：启动一次后台检查
+        UpdaterViewModel.shared.startAutomaticChecksIfNeeded()
+        
+        // Sync configuration on app startup
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
+            ConfigImportService.shared.syncConfigurationOnStartup()
         }
-
-        // Listen for permission granted notification
-        NotificationCenter.default.addObserver(
-            self,
-            selector: #selector(handlePermissionGranted),
-            name: .permissionGranted,
-            object: nil
-        )
     }
 
-    private func showPermissionWindow() {
+    // MARK: - SPUUpdaterDelegate（在 2.x 中仍支持这些回调）
+    func updater(_ updater: SPUUpdater, didFindValidUpdate item: SUAppcastItem) {
         DispatchQueue.main.async {
-            if self.permissionWindow == nil {
-                self.permissionWindow = PermissionWindow()
-            }
-            self.permissionWindow?.makeKeyAndOrderFront(nil)
-            NSApp.activate(ignoringOtherApps: true)
+            UpdaterViewModel.shared.foundItem = item
+            UpdaterViewModel.shared.updateAvailable = true
         }
     }
 
-    @objc private func handlePermissionGranted() {
-        print("✅ Permission granted, syncing configuration")
-
-        // Close permission window
-        permissionWindow?.close()
-        permissionWindow = nil
-
-        // Sync configuration
-        ConfigImportService.shared.syncConfigurationOnStartup()
+    func updaterDidNotFindUpdate(_ updater: SPUUpdater) {
+        DispatchQueue.main.async {
+            UpdaterViewModel.shared.foundItem = nil
+            UpdaterViewModel.shared.updateAvailable = false
+        }
     }
 }
