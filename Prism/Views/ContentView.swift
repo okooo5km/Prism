@@ -187,6 +187,8 @@ struct ContentView: View {
         }
     }
     
+    @State private var isHovering: Bool = false
+    
     private var footerView: some View {
         HStack {
             Spacer()
@@ -206,7 +208,7 @@ struct ContentView: View {
                 })
                 .buttonStyle(.plain)
             } else {
-                Text("Prism v\(appVersion)", comment: "App version display format")
+                Text("Prism v\(appVersion) by [5KM Tech](https://5km.tech)", comment: "App version display format")
                     .font(.caption)
                     .fontWeight(.semibold)
                     .foregroundStyle(.tertiary)
@@ -216,36 +218,59 @@ struct ContentView: View {
             }
             Spacer()
         }
-        .overlay(alignment: .trailing) {
-            Button(action: {
-                showQuitAlert = true
-            }, label: {
-                Image(systemName: "power")
-                    .background(.background.opacity(0.001))
-            })
-            .buttonStyle(.plain)
-            .popover(isPresented: $showQuitAlert) {
-                VStack {
-                    Text("Quit Prism now?", comment: "Quit confirmation message")
-                        .font(.caption)
-                    
-                    HStack(spacing: 12) {
-                        Button("No") {
-                            showQuitAlert = false
-                        }
-                        .buttonStyle(.gradient(configuration: .primary))
-                        .controlSize(.small)
-                        
-                        Button("Yes") {
-                            NSApplication.shared.terminate(nil)
-                        }
-                        .buttonStyle(.gradient(configuration: .danger2))
-                        .controlSize(.small)
-                        .tint(.red)
+        .overlay {
+            HStack {
+                Button(action: {
+                    if let url = URL(string: "https://donate.stripe.com/fZueVd3vxgAz18X5wxasg0b") {
+                        NSWorkspace.shared.open(url)
                     }
-                    .font(.caption)
+                }, label: {
+                    HStack {
+                        Image(systemName: "cup.and.saucer")
+                            .background(.background.opacity(0.001))
+                            .fontWeight(isHovering ? .medium : .regular)
+                    }
+                    .foregroundStyle(isHovering ? .primary : .tertiary)
+                    .onHover(perform: { hovering in
+                        withAnimation {
+                            isHovering = hovering
+                        }
+                    })
+                })
+                .buttonStyle(.plain)
+                
+                Spacer()
+                
+                Button(action: {
+                    showQuitAlert = true
+                }, label: {
+                    Image(systemName: "power")
+                        .background(.background.opacity(0.001))
+                })
+                .buttonStyle(.plain)
+                .popover(isPresented: $showQuitAlert) {
+                    VStack {
+                        Text("Quit Prism now?", comment: "Quit confirmation message")
+                            .font(.caption)
+                        
+                        HStack(spacing: 12) {
+                            Button("No") {
+                                showQuitAlert = false
+                            }
+                            .buttonStyle(.gradient(configuration: .primary))
+                            .controlSize(.small)
+                            
+                            Button("Yes") {
+                                NSApplication.shared.terminate(nil)
+                            }
+                            .buttonStyle(.gradient(configuration: .danger2))
+                            .controlSize(.small)
+                            .tint(.red)
+                        }
+                        .font(.caption)
+                    }
+                    .padding(16)
                 }
-                .padding(16)
             }
         }
     }

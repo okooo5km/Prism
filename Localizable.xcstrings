@@ -604,7 +604,7 @@
         }
       }
     },
-    "Prism v%@" : {
+    "Prism v%@ by [5KM Tech](https://5km.tech)" : {
       "comment" : "App version display format"
     },
     "Provider Name" : {
