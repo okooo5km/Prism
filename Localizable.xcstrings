@@ -113,6 +113,33 @@
         }
       }
     },
+    "AnyRouter" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AnyRouter"
+          }
+        }
+      }
+    },
+    "AnyRouter Link" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "https://docs.anyrouter.top/"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://docs.anyrouter.top/"
+          }
+        }
+      }
+    },
     "API Timeout (ms)" : {
       "comment" : "API timeout field label",
       "extractionState" : "manual",
@@ -408,6 +435,44 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "使用 Anthropic Claude 官方账户"
+          }
+        }
+      }
+    },
+    "LongCat" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "LongCat"
+          }
+        }
+      }
+    },
+    "LongCat Doc Link" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "https://longcat.chat/platform/docs/ClaudeCode.html"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://longcat.chat/platform/docs/zh/ClaudeCode.html"
+          }
+        }
+      }
+    },
+    "Max output tokens" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最大输出 Token 数"
           }
         }
       }

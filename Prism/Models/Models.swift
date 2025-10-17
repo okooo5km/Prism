@@ -199,6 +199,31 @@ struct ProviderTemplate: Hashable, Equatable {
         icon: "ModelScopeLogo",
         docLink: String(localized: "ModelScope Doc Link", defaultValue: "https://modelscope.cn/docs/models/inference")
     )
+    
+    static let longCatAI = ProviderTemplate(
+        name: String(localized: "LongCat"),
+        envVariables: [
+            "ANTHROPIC_BASE_URL": EnvValue(value: "https://api.longcat.chat/anthropic", type: .string),
+            "ANTHROPIC_AUTH_TOKEN": EnvValue(value: "", type: .string),
+            "ANTHROPIC_DEFAULT_HAIKU_MODEL": EnvValue(value: "LongCat-Flash-Chat", type: .string),
+            "ANTHROPIC_DEFAULT_SONNET_MODEL": EnvValue(value: "LongCat-Flash-Chat", type: .string),
+            "ANTHROPIC_DEFAULT_OPUS_MODEL": EnvValue(value: "LongCat-Flash-Thinking", type: .string),
+            "CLAUDE_CODE_MAX_OUTPUT_TOKENS": EnvValue(value: "6000", type: .integer),
+            "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": EnvValue(value: "1", type: .boolean)
+        ],
+        icon: "LongCatLogo",
+        docLink: String(localized: "LongCat Doc Link", defaultValue: "https://longcat.chat/platform/docs/ClaudeCode.html")
+    )
+    
+    static let anyRouterAI = ProviderTemplate(
+        name: String(localized: "AnyRouter"),
+        envVariables: [
+            "ANTHROPIC_BASE_URL": EnvValue(value: "https://anyrouter.top", type: .string),
+            "ANTHROPIC_AUTH_TOKEN": EnvValue(value: "", type: .string),
+        ],
+        icon: "AnyRouterLogo",
+        docLink: String(localized: "AnyRouter Link", defaultValue: "https://docs.anyrouter.top/")
+    )
 
     static let otherAI = ProviderTemplate(
         name: String(localized: "Custom AI"),
@@ -222,6 +247,8 @@ struct ProviderTemplate: Hashable, Equatable {
         aliyuncsAI,
         modelScopeAI,
         packyCodeAI,
+        anyRouterAI,
+        longCatAI,
         otherAI
     ]
 }
@@ -245,6 +272,7 @@ enum EnvKey: String, CaseIterable, Identifiable {
     case sonnetModel = "ANTHROPIC_DEFAULT_SONNET_MODEL"
     case opusModel = "ANTHROPIC_DEFAULT_OPUS_MODEL"
     case apiTimeout = "API_TIMEOUT_MS"
+    case maxOutputTokens = "CLAUDE_CODE_MAX_OUTPUT_TOKENS"
     case disableTraffic = "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC"
 
     var id: String { rawValue }
@@ -263,6 +291,8 @@ enum EnvKey: String, CaseIterable, Identifiable {
             return "Opus Model"
         case .apiTimeout:
             return "API Timeout (ms)"
+        case .maxOutputTokens:
+            return "Max output tokens"
         case .disableTraffic:
             return "Disable Non-essential Traffic"
         }
@@ -282,6 +312,8 @@ enum EnvKey: String, CaseIterable, Identifiable {
             return "o.square.fill"
         case .apiTimeout:
             return "clock.fill"
+        case .maxOutputTokens:
+            return "character.textbox"
         case .disableTraffic:
             return "network.slash"
         }
@@ -301,6 +333,8 @@ enum EnvKey: String, CaseIterable, Identifiable {
             return "opus"
         case .apiTimeout:
             return "600000"
+        case .maxOutputTokens:
+            return "6000"
         case .disableTraffic:
             return "Enabled"
         }
@@ -310,7 +344,7 @@ enum EnvKey: String, CaseIterable, Identifiable {
         switch self {
         case .baseURL, .authToken, .haikuModel, .sonnetModel, .opusModel:
             return .string
-        case .apiTimeout:
+        case .apiTimeout, .maxOutputTokens:
             return .integer
         case .disableTraffic:
             return .boolean
