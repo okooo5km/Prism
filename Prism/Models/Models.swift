@@ -224,6 +224,36 @@ struct ProviderTemplate: Hashable, Equatable {
         icon: "AnyRouterLogo",
         docLink: String(localized: "AnyRouter Link", defaultValue: "https://docs.anyrouter.top/")
     )
+    
+    static let miniMaxAI = ProviderTemplate(
+        name: String(localized: "MiniMax.com"),
+        envVariables: [
+            "ANTHROPIC_BASE_URL": EnvValue(value: "https://api.minimaxi.com/anthropic", type: .string),
+            "ANTHROPIC_AUTH_TOKEN": EnvValue(value: "", type: .string),
+            "ANTHROPIC_DEFAULT_HAIKU_MODEL": EnvValue(value: "MiniMax-M2", type: .string),
+            "ANTHROPIC_DEFAULT_SONNET_MODEL": EnvValue(value: "MiniMax-M2", type: .string),
+            "ANTHROPIC_DEFAULT_OPUS_MODEL": EnvValue(value: "MiniMax-M2", type: .string),
+            "API_TIMEOUT_MS": EnvValue(value: "3000000", type: .integer),
+            "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": EnvValue(value: "1", type: .boolean),
+        ],
+        icon: "MiniMaxLogo",
+        docLink: String(localized: "MiniMax Link", defaultValue: "https://platform.minimaxi.com/docs/guides/text-ai-coding-tools#%E5%9C%A8-claude-code-%E4%B8%AD%E4%BD%BF%E7%94%A8-minimax-m2%EF%BC%88%E6%8E%A8%E8%8D%90%EF%BC%89")
+    )
+    
+    static let miniMaxIoAI = ProviderTemplate(
+        name: String(localized: "MiniMax.io"),
+        envVariables: [
+            "ANTHROPIC_BASE_URL": EnvValue(value: "https://api.minimax.io/anthropic", type: .string),
+            "ANTHROPIC_AUTH_TOKEN": EnvValue(value: "", type: .string),
+            "ANTHROPIC_DEFAULT_HAIKU_MODEL": EnvValue(value: "MiniMax-M2", type: .string),
+            "ANTHROPIC_DEFAULT_SONNET_MODEL": EnvValue(value: "MiniMax-M2", type: .string),
+            "ANTHROPIC_DEFAULT_OPUS_MODEL": EnvValue(value: "MiniMax-M2", type: .string),
+            "API_TIMEOUT_MS": EnvValue(value: "3000000", type: .integer),
+            "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": EnvValue(value: "1", type: .boolean),
+        ],
+        icon: "MiniMaxLogo",
+        docLink: String(localized: "MiniMax IO Link", defaultValue: "https://platform.minimax.io/docs/guides/text-ai-coding-tools#use-minimax-m2-in-claude-code-recommended")
+    )
 
     static let otherAI = ProviderTemplate(
         name: String(localized: "Custom AI"),
@@ -241,6 +271,8 @@ struct ProviderTemplate: Hashable, Equatable {
     static let allTemplates: [ProviderTemplate] = [
         zhipuAI,
         zai,
+        miniMaxAI,
+        miniMaxIoAI,
         moonshotAI,
         VanchinAI,
         deepSeekAI,

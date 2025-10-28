@@ -477,6 +477,60 @@
         }
       }
     },
+    "MiniMax IO Link" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "https://platform.minimax.io/docs/guides/text-ai-coding-tools#use-minimax-m2-in-claude-code-recommended"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://platform.minimax.io/docs/guides/text-ai-coding-tools#use-minimax-m2-in-claude-code-recommended"
+          }
+        }
+      }
+    },
+    "MiniMax Link" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "https://platform.minimaxi.com/docs/guides/text-ai-coding-tools#%1$E5%2$9C%3$A8-claude-code-%4$E4%B8%5$AD%6$E4%BD%BF%7$E7%94%8$A8-minimax-m2%9$EF%BC%88%10$E6%11$8E%12$A8%13$E8%14$8D%90%15$EF%BC%89"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://platform.minimaxi.com/docs/guides/text-ai-coding-tools#%1$E5%2$9C%3$A8-claude-code-%4$E4%B8%5$AD%6$E4%BD%BF%7$E7%94%8$A8-minimax-m2%9$EF%BC%88%10$E6%11$8E%12$A8%13$E8%14$8D%90%15$EF%BC%89"
+          }
+        }
+      }
+    },
+    "MiniMax.com" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MiniMax 国内版"
+          }
+        }
+      }
+    },
+    "MiniMax.io" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MiniMax 国际版"
+          }
+        }
+      }
+    },
     "ModelScope" : {
       "localizations" : {
         "zh-Hans" : {
