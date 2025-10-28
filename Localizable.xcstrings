@@ -712,13 +712,13 @@
         }
       }
     },
-    "Prism v%@ by [5KM Tech](https://5km.tech)" : {
+    "Prism v%@" : {
       "comment" : "App version display format",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "Prism v%@ [5KM Tech](https://5km.tech) 出品"
+            "value" : "Prism v%@"
           }
         }
       }

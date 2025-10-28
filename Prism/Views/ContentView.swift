@@ -208,7 +208,7 @@ struct ContentView: View {
                 })
                 .buttonStyle(.plain)
             } else {
-                Text("Prism v\(appVersion) by [5KM Tech](https://5km.tech)", comment: "App version display format")
+                Text("Prism v\(appVersion)", comment: "App version display format")
                     .font(.caption)
                     .fontWeight(.semibold)
                     .foregroundStyle(.tertiary)
