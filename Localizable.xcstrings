@@ -954,6 +954,33 @@
         }
       }
     },
+    "ZenMux" : {
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "ZenMux"
+          }
+        }
+      }
+    },
+    "ZenMux Link" : {
+      "extractionState" : "extracted_with_value",
+      "localizations" : {
+        "en" : {
+          "stringUnit" : {
+            "state" : "new",
+            "value" : "https://docs.zenmux.ai/best-practices/claude-code.html"
+          }
+        },
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "https://docs.zenmux.ai/zh/best-practices/claude-code.html"
+          }
+        }
+      }
+    },
     "Zhipu AI" : {
       "comment" : "Zhipu AI provider name",
       "localizations" : {

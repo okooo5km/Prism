@@ -254,6 +254,20 @@ struct ProviderTemplate: Hashable, Equatable {
         icon: "MiniMaxLogo",
         docLink: String(localized: "MiniMax IO Link", defaultValue: "https://platform.minimax.io/docs/guides/text-ai-coding-tools#use-minimax-m2-in-claude-code-recommended")
     )
+    
+    static let ZenMuxAI = ProviderTemplate(
+        name: String(localized: "ZenMux"),
+        envVariables: [
+            "ANTHROPIC_BASE_URL": EnvValue(value: "https://zenmux.ai/api/anthropic", type: .string),
+            "ANTHROPIC_AUTH_TOKEN": EnvValue(value: "", type: .string),
+            "ANTHROPIC_DEFAULT_HAIKU_MODEL": EnvValue(value: "google/gemini-3-pro-preview-free", type: .string),
+            "ANTHROPIC_DEFAULT_SONNET_MODEL": EnvValue(value: "google/gemini-3-pro-preview-free", type: .string),
+            "ANTHROPIC_DEFAULT_OPUS_MODEL": EnvValue(value: "google/gemini-3-pro-preview-free", type: .string),
+            "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC": EnvValue(value: "1", type: .boolean),
+        ],
+        icon: "ZenMuxLogo",
+        docLink: String(localized: "ZenMux Link", defaultValue: "https://docs.zenmux.ai/best-practices/claude-code.html")
+    )
 
     static let otherAI = ProviderTemplate(
         name: String(localized: "Custom AI"),
@@ -281,6 +295,7 @@ struct ProviderTemplate: Hashable, Equatable {
         packyCodeAI,
         anyRouterAI,
         longCatAI,
+        ZenMuxAI,
         otherAI
     ]
 }
