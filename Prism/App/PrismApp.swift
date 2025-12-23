@@ -21,13 +21,13 @@ struct PrismApp: App {
     }
 }
 
-class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
+class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate, SPUStandardUserDriverDelegate {
     
     func applicationDidFinishLaunching(_ notification: Notification) {
         
         let updaterController = SPUStandardUpdaterController(startingUpdater: true,
                                                              updaterDelegate: self,
-                                                             userDriverDelegate: nil)
+                                                             userDriverDelegate: self)
         
         NSApplication.shared.setActivationPolicy(.accessory)
         StatusBarController.shared.setup()
@@ -55,5 +55,19 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate {
             UpdaterViewModel.shared.foundItem = nil
             UpdaterViewModel.shared.updateAvailable = false
         }
+    }
+    
+    // 告诉 Sparkle 你的应用支持温和提醒
+    // 这将消除控制台的 Warning
+    var supportsGentleScheduledUpdateReminders: Bool {
+        return true
+    }
+    
+    // 可选：你可以进一步自定义提醒行为
+    // 如果不实现此方法，Sparkle 会尝试使用系统通知中心发送更新提醒
+    func standardUserDriverShouldHandleShowingScheduledUpdate(_ update: SUAppcastItem, andInImmediateFocus immediateFocus: Bool) -> Bool {
+        // 返回 true 表示由你来处理 UI（比如在菜单栏图标上加个红点）
+        // 返回 false 表示让 Sparkle 使用默认行为（但在后台应用中，默认行为已被限制，所以最好结合通知使用）
+        return false
     }
 }
