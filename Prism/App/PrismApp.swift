@@ -33,8 +33,7 @@ class AppDelegate: NSObject, NSApplicationDelegate, SPUUpdaterDelegate, SPUStand
         StatusBarController.shared.setup()
         
         UpdaterViewModel.shared.updaterController = updaterController
-        // 可选：启动一次后台检查
-        UpdaterViewModel.shared.startAutomaticChecksIfNeeded()
+        // Sparkle will automatically check for updates based on SUEnableAutomaticChecks in Info.plist
         
         // Sync configuration on app startup
         DispatchQueue.main.asyncAfter(deadline: .now() + 0.5) {
