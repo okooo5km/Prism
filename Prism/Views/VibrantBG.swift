@@ -2,7 +2,7 @@
 //  VibrantBG.swift
 //  Zipic
 //
-//  Created by 十里 on 2023/5/14.
+//  Created by okooo5km(十里) on 2023/5/14.
 //
 
 import SwiftUI

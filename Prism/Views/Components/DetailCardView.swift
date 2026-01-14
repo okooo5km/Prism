@@ -2,7 +2,7 @@
 //  DetailCardView.swift
 //  KeygenGo
 //
-//  Created by 十里 on 2024/7/5.
+//  Created by okooo5km(十里) on 2024/7/5.
 //
 
 import SwiftUI

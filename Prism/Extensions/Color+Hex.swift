@@ -2,7 +2,7 @@
 //  Color+Hex.swift
 //  HiPixel
 //
-//  Created by 十里 on 2025/3/11.
+//  Created by okooo5km(十里) on 2025/3/11.
 //
 
 import SwiftUI

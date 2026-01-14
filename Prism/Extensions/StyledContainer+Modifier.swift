@@ -2,7 +2,7 @@
 //  StyledContainer+Modifier.swift
 //  Orchard
 //
-//  Created by Claude on 2025/7/17.
+//  Created by okooo5km(十里) on 2025/7/17.
 //
 
 import SwiftUI

@@ -2,7 +2,7 @@
 //  UpdaterViewModel.swift
 //  Prism
 //
-//  Created by 十里 on 2025/10/10.
+//  Created by okooo5km(十里) on 2025/10/10.
 //
 
 import SwiftUI
@@ -16,11 +16,11 @@ class UpdaterViewModel {
     @Published var updateAvailable: Bool = false
     @Published var foundItem: SUAppcastItem? = nil
 
-    // 由 AppDelegate 注入
+    // Injected by AppDelegate
     var updaterController: SPUStandardUpdaterController?
 
     func presentUpdateUI() {
-        // 调用 Sparkle 默认 UI（只在需要时点击触发）
+        // Trigger Sparkle default UI (on-demand check)
         updaterController?.checkForUpdates(nil)
     }
 
