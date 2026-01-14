@@ -11,6 +11,8 @@ import Sparkle
 struct ContentView: View {
     @State private var viewModel = ContentViewModel()
     @State private var showQuitAlert: Bool = false
+    @State private var showImportConfirmation: Bool = false
+    @State private var pendingImportData: [String: EnvValue]? = nil
     
     @State private var updaterVM = UpdaterViewModel.shared
     
@@ -125,7 +127,13 @@ struct ContentView: View {
             Spacer()
             
             Button(action: {
-                viewModel.showAddProvider()
+                // Check clipboard for valid config before showing add view
+                if let importData = viewModel.checkClipboardForConfig() {
+                    pendingImportData = importData
+                    showImportConfirmation = true
+                } else {
+                    viewModel.showAddProvider()
+                }
             }) {
                 Image(systemName: "plus")
                     .font(.title2)
@@ -133,6 +141,25 @@ struct ContentView: View {
                     .background(.background.opacity(0.001))
             }
             .buttonStyle(.plain)
+            .popover(isPresented: $showImportConfirmation) {
+                ImportConfirmationPopover(
+                    onConfirm: {
+                        if let importData = pendingImportData {
+                            let newProvider = viewModel.createProviderFromImport(importData)
+                            viewModel.addProvider(newProvider)
+                            // Open edit view for the new provider
+                            viewModel.showEditProvider(newProvider)
+                        }
+                        pendingImportData = nil
+                        showImportConfirmation = false
+                    },
+                    onCancel: {
+                        pendingImportData = nil
+                        showImportConfirmation = false
+                        viewModel.showAddProvider()
+                    }
+                )
+            }
         }
     }
     
@@ -179,6 +206,21 @@ struct ContentView: View {
                         },
                         onDelete: {
                             viewModel.deleteProvider(provider)
+                        },
+                        onCopy: {
+                            viewModel.copyProvider(provider)
+                        },
+                        onPaste: {
+                            if let newProvider = viewModel.pasteProvider() {
+                                viewModel.showEditProvider(newProvider)
+                            }
+                        },
+                        onDuplicate: {
+                            let duplicatedProvider = viewModel.duplicateProvider(provider)
+                            viewModel.showEditProvider(duplicatedProvider)
+                        },
+                        checkClipboard: {
+                            viewModel.checkClipboardForConfig() != nil
                         }
                     )
                 }
@@ -282,8 +324,13 @@ struct ProviderRowView: View {
     let onActivate: () -> Void
     let onEdit: () -> Void
     let onDelete: () -> Void
+    let onCopy: () -> Void
+    let onPaste: () -> Void
+    let onDuplicate: () -> Void
+    let checkClipboard: () -> Bool
     
     @State private var showingDeleteConfirmation = false
+    @State private var hasValidClipboard = false
     
     var body: some View {
         HStack {
@@ -351,6 +398,55 @@ struct ProviderRowView: View {
                 onActivate()
             }
         }
+        .onHover { hovering in
+            if hovering {
+                hasValidClipboard = checkClipboard()
+            }
+        }
+        .contextMenu {
+            if !isActive {
+                Button {
+                    onActivate()
+                } label: {
+                    Label(String(localized: "Select", comment: "Context menu item to select/activate a provider"), systemImage: "checkmark")
+                }
+            }
+            
+            Button {
+                onEdit()
+            } label: {
+                Label(String(localized: "Edit", comment: "Context menu item to edit a provider"), systemImage: "pencil")
+            }
+            
+            Divider()
+            
+            Button {
+                onCopy()
+            } label: {
+                Label(String(localized: "Copy", comment: "Context menu item to copy a provider config"), systemImage: "doc.on.doc")
+            }
+            
+            Button {
+                onPaste()
+            } label: {
+                Label(String(localized: "Paste", comment: "Context menu item to paste a provider from clipboard"), systemImage: "doc.on.clipboard")
+            }
+            .disabled(!hasValidClipboard)
+            
+            Button {
+                onDuplicate()
+            } label: {
+                Label(String(localized: "Duplicate", comment: "Context menu item to duplicate a provider"), systemImage: "plus.square.on.square")
+            }
+            
+            Divider()
+            
+            Button(role: .destructive) {
+                showingDeleteConfirmation = true
+            } label: {
+                Label(String(localized: "Delete", comment: "Context menu item to delete a provider"), systemImage: "trash")
+            }
+        }
     }
 }
 
@@ -393,6 +489,15 @@ struct DefaultProviderRowView: View {
                 onActivate()
             }
         }
+        .contextMenu {
+            if !isActive {
+                Button {
+                    onActivate()
+                } label: {
+                    Label(String(localized: "Select", comment: "Context menu item to select/activate a provider"), systemImage: "checkmark")
+                }
+            }
+        }
     }
 }
 
@@ -428,6 +533,44 @@ struct DeleteConfirmationPopover: View {
                 .buttonStyle(.gradient(configuration: .danger2))
                 .controlSize(.small)
                 .tint(.red)
+            }
+            .font(.caption)
+        }
+        .padding(16)
+        .frame(width: 240)
+        .background(Color(NSColor.windowBackgroundColor))
+    }
+}
+
+struct ImportConfirmationPopover: View {
+    let onConfirm: () -> Void
+    let onCancel: () -> Void
+    
+    var body: some View {
+        VStack(spacing: 16) {
+            VStack(spacing: 8) {
+                Text("Clipboard Config Detected", comment: "Import confirmation dialog title")
+                    .font(.headline)
+                    .fontWeight(.semibold)
+                
+                Text("Use clipboard configuration?", comment: "Import confirmation message")
+                    .font(.caption)
+                    .foregroundStyle(.secondary)
+                    .multilineTextAlignment(.center)
+            }
+            
+            HStack(spacing: 12) {
+                Button(String(localized: "Ignore", comment: "Button to ignore clipboard and create provider manually")) {
+                    onCancel()
+                }
+                .buttonStyle(.gradient(configuration: .danger2))
+                .controlSize(.small)
+                
+                Button(String(localized: "Use", comment: "Button to use clipboard configuration")) {
+                    onConfirm()
+                }
+                .buttonStyle(.gradient(configuration: .primary))
+                .controlSize(.small)
             }
             .font(.caption)
         }

@@ -222,6 +222,17 @@
         }
       }
     },
+    "Clipboard Config Detected" : {
+      "comment" : "Import confirmation dialog title",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "检测到剪贴板配置"
+          }
+        }
+      }
+    },
     "Copied" : {
       "comment" : "Status text shown when text is copied",
       "localizations" : {
@@ -229,6 +240,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "已复制"
+          }
+        }
+      }
+    },
+    "Copy" : {
+      "comment" : "Context menu item to copy a provider config",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "复制"
           }
         }
       }
@@ -308,7 +330,7 @@
       }
     },
     "Delete" : {
-      "comment" : "Delete button",
+      "comment" : "Context menu item to delete a provider",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -337,6 +359,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "禁用非必要流量"
+          }
+        }
+      }
+    },
+    "Duplicate" : {
+      "comment" : "Context menu item to duplicate a provider",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "创建副本"
+          }
+        }
+      }
+    },
+    "Edit" : {
+      "comment" : "Context menu item to edit a provider",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "编辑"
           }
         }
       }
@@ -2335,6 +2379,17 @@
         }
       }
     },
+    "Ignore" : {
+      "comment" : "Button to ignore clipboard and create provider manually",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "忽略"
+          }
+        }
+      }
+    },
     "Integer" : {
       "comment" : "Integer type label",
       "extractionState" : "manual",
@@ -2675,6 +2730,17 @@
         }
       }
     },
+    "Paste" : {
+      "comment" : "Context menu item to paste a provider from clipboard",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "粘贴"
+          }
+        }
+      }
+    },
     "Prism v%@" : {
       "comment" : "App version display format",
       "localizations" : {
@@ -2759,6 +2825,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "搜索环境变量..."
+          }
+        }
+      }
+    },
+    "Select" : {
+      "comment" : "Context menu item to select/activate a provider",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用"
           }
         }
       }
@@ -2874,6 +2951,28 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "类型"
+          }
+        }
+      }
+    },
+    "Use" : {
+      "comment" : "Button to use clipboard configuration",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用"
+          }
+        }
+      }
+    },
+    "Use clipboard configuration?" : {
+      "comment" : "Import confirmation message",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "是否使用剪贴板配置？"
           }
         }
       }
