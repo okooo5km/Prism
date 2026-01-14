@@ -118,12 +118,17 @@ struct DetailTextFieldCardView: View {
     var isEditing: Bool = false
     var validation: (String) -> Bool = { _ in true }
     var validationMessage: LocalizedStringKey = "Invalid input"
+    var description: String? = nil
+    var onDelete: (() -> Void)? = nil
     
     @Binding
     var value: String
     
     @State
     private var isCopied = false
+    
+    @State
+    private var showDescription = false
     
     private var validationError: Bool {
         if value.isEmpty {
@@ -142,6 +147,26 @@ struct DetailTextFieldCardView: View {
                     if isEditing {
                         Image(systemName: "pencil.circle.fill")
                             .foregroundStyle(.blue)
+                    }
+                    // Description info button
+                    if let desc = description {
+                        Button(action: {
+                            showDescription.toggle()
+                        }) {
+                            Image(systemName: "info.circle.fill")
+                                .font(.caption2)
+                                .foregroundStyle(Color.secondary)
+                        }
+                        .buttonStyle(.plain)
+                        .popover(isPresented: $showDescription, arrowEdge: .bottom) {
+                            Text(desc)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .multilineTextAlignment(.leading)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .padding(12)
+                                .frame(maxWidth: 300)
+                        }
                     }
                     if isCopied {
                         HStack(spacing: 4) {
@@ -163,6 +188,14 @@ struct DetailTextFieldCardView: View {
                             .foregroundStyle(.red)
                     }
                     Spacer()
+                    // Delete button
+                    if let deleteAction = onDelete {
+                        Button(action: deleteAction) {
+                            Image(systemName: "minus.circle.fill")
+                        }
+                        .buttonStyle(.plain)
+                        .help("Remove variable")
+                    }
                 }
             }
             .font(.subheadline)
@@ -216,6 +249,8 @@ struct DetailSecureFieldCardView: View {
     var placeholder: LocalizedStringKey = ""
     var required: Bool = false
     var isEditing: Bool = false
+    var description: String? = nil
+    var onDelete: (() -> Void)? = nil
     
     @Binding
     var value: String
@@ -226,12 +261,35 @@ struct DetailSecureFieldCardView: View {
     @State
     private var isCopied = false
     
+    @State
+    private var showDescription = false
+    
     var body: some View {
         VStack(alignment: .leading, spacing: 8) {
             HStack{
                 HStack(spacing: 4) {
                     Image(systemName: systemImage)
                     Text(title)
+                    // Description info button
+                    if let desc = description {
+                        Button(action: {
+                            showDescription.toggle()
+                        }) {
+                            Image(systemName: "info.circle.fill")
+                                .font(.caption2)
+                                .foregroundStyle(Color.secondary)
+                        }
+                        .buttonStyle(.plain)
+                        .popover(isPresented: $showDescription, arrowEdge: .bottom) {
+                            Text(desc)
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                                .multilineTextAlignment(.leading)
+                                .fixedSize(horizontal: false, vertical: true)
+                                .padding(12)
+                                .frame(maxWidth: 300)
+                        }
+                    }
                     Spacer()
                     if required {
                         Text("*", comment: "Required field indicator")
@@ -254,6 +312,16 @@ struct DetailSecureFieldCardView: View {
                     .background(cornerRadius: 4, fill: .background)
                 }
                 Spacer()
+                
+                // Delete button
+                if let deleteAction = onDelete {
+                    Button(action: deleteAction) {
+                        Image(systemName: "minus.circle.fill")
+                    }
+                    .buttonStyle(.plain)
+                    .help("Remove variable")
+                    .padding(.trailing, 5)
+                }
                 
                 Button(action: {
                     withAnimation {
@@ -540,13 +608,38 @@ struct DetailSwitchCardView: View {
     let title: LocalizedStringKey
     let systemImage: String
     var isEditing: Bool = false
+    var description: String? = nil
+    var onDelete: (() -> Void)? = nil
     
     @Binding
     var value: Bool
     
+    @State
+    private var showDescription = false
+    
     var body: some View {
         HStack{
             Label(title, systemImage: systemImage)
+            // Description info button
+            if let desc = description {
+                Button(action: {
+                    showDescription.toggle()
+                }) {
+                    Image(systemName: "info.circle.fill")
+                        .font(.caption2)
+                        .foregroundStyle(Color.secondary)
+                }
+                .buttonStyle(.plain)
+                .popover(isPresented: $showDescription, arrowEdge: .bottom) {
+                    Text(desc)
+                        .font(.caption)
+                        .foregroundStyle(.secondary)
+                        .multilineTextAlignment(.leading)
+                        .fixedSize(horizontal: false, vertical: true)
+                        .padding(12)
+                        .frame(maxWidth: 300)
+                }
+            }
             if isEditing {
                 Image(systemName: "pencil.circle.fill")
                     .foregroundStyle(.blue)
@@ -555,6 +648,14 @@ struct DetailSwitchCardView: View {
             Toggle("", isOn: $value)
                 .controlSize(.mini)
                 .toggleStyle(.switch)
+            // Delete button
+            if let deleteAction = onDelete {
+                Button(action: deleteAction) {
+                    Image(systemName: "minus.circle.fill")
+                }
+                .buttonStyle(.plain)
+                .help("Remove variable")
+            }
         }
         .font(.subheadline)
         .foregroundStyle(.tertiary)

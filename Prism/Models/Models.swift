@@ -398,3 +398,179 @@ enum EnvKey: String, CaseIterable, Identifiable {
         }
     }
 }
+
+// MARK: - Claude Environment Variable Definitions
+
+/// Represents a Claude Code environment variable with its metadata
+struct ClaudeEnvVariable: Identifiable, Hashable {
+    let name: String
+    let shortNameKey: String
+    let shortNameDefault: String
+    let descriptionKey: String
+    let descriptionDefault: String
+    let type: EnvValueType
+    let defaultValue: String?
+
+    var id: String { name }
+    
+    /// Localized short name for display
+    var shortName: String {
+        let localized = NSLocalizedString(shortNameKey, value: shortNameDefault, comment: "")
+        return localized == shortNameKey ? shortNameDefault : localized
+    }
+    
+    /// Localized description for display
+    var description: String {
+        let localized = NSLocalizedString(descriptionKey, value: descriptionDefault, comment: "")
+        return localized == descriptionKey ? descriptionDefault : localized
+    }
+    
+    /// Convenience initializer using environment variable name as key base
+    init(name: String, shortName: String, description: String, type: EnvValueType, defaultValue: String?) {
+        self.name = name
+        self.shortNameKey = "EnvVar.Short.\(name)"
+        self.shortNameDefault = shortName
+        self.descriptionKey = "EnvVar.Desc.\(name)"
+        self.descriptionDefault = description
+        self.type = type
+        self.defaultValue = defaultValue
+    }
+
+    /// All available Claude Code environment variables
+    static let allVariables: [ClaudeEnvVariable] = [
+        // API Authentication
+        ClaudeEnvVariable(name: "ANTHROPIC_API_KEY", shortName: "API Key", description: "API key sent as X-Api-Key header", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "ANTHROPIC_AUTH_TOKEN", shortName: "Auth Token", description: "Custom value for Authorization header (prefixed with Bearer)", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "ANTHROPIC_BASE_URL", shortName: "Base URL", description: "Base URL for API requests", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "ANTHROPIC_CUSTOM_HEADERS", shortName: "Custom Headers", description: "Custom headers to add to requests (Name: Value format)", type: .string, defaultValue: nil),
+
+        // Model Configuration
+        ClaudeEnvVariable(name: "ANTHROPIC_DEFAULT_HAIKU_MODEL", shortName: "Haiku Model", description: "Default model name for Haiku", type: .string, defaultValue: "claude-haiku-4-5@20251001"),
+        ClaudeEnvVariable(name: "ANTHROPIC_DEFAULT_OPUS_MODEL", shortName: "Opus Model", description: "Default model name for Opus", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "ANTHROPIC_DEFAULT_SONNET_MODEL", shortName: "Sonnet Model", description: "Default model name for Sonnet", type: .string, defaultValue: "claude-sonnet-4-5@20250929"),
+        ClaudeEnvVariable(name: "ANTHROPIC_MODEL", shortName: "Model Setting", description: "Model setting name to use", type: .string, defaultValue: "default"),
+        ClaudeEnvVariable(name: "ANTHROPIC_SMALL_FAST_MODEL", shortName: "Small Fast Model", description: "[DEPRECATED] Haiku-class model name for background tasks", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "ANTHROPIC_SMALL_FAST_MODEL_AWS_REGION", shortName: "Small Model Region", description: "Override AWS region for Haiku model when using Bedrock", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_SUBAGENT_MODEL", shortName: "Subagent Model", description: "Model to use for subagents", type: .string, defaultValue: nil),
+
+        // Microsoft Foundry
+        ClaudeEnvVariable(name: "ANTHROPIC_FOUNDRY_API_KEY", shortName: "Foundry API Key", description: "API key for Microsoft Foundry authentication", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "ANTHROPIC_FOUNDRY_BASE_URL", shortName: "Foundry Base URL", description: "Full base URL for Microsoft Foundry", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "ANTHROPIC_FOUNDRY_RESOURCE", shortName: "Foundry Resource", description: "Azure resource name", type: .string, defaultValue: nil),
+
+        // Vertex AI
+        ClaudeEnvVariable(name: "ANTHROPIC_VERTEX_PROJECT_ID", shortName: "Vertex Project ID", description: "GCP project ID for Vertex AI", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "CLOUD_ML_REGION", shortName: "Vertex Region", description: "Vertex AI region", type: .string, defaultValue: "global"),
+        ClaudeEnvVariable(name: "VERTEX_REGION_CLAUDE_3_5_HAIKU", shortName: "Haiku 3.5 Region", description: "Region override for Claude 3.5 Haiku in Vertex AI", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "VERTEX_REGION_CLAUDE_3_7_SONNET", shortName: "Sonnet 3.7 Region", description: "Region override for Claude 3.7 Sonnet in Vertex AI", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "VERTEX_REGION_CLAUDE_4_0_OPUS", shortName: "Opus 4.0 Region", description: "Region override for Claude 4.0 Opus in Vertex AI", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "VERTEX_REGION_CLAUDE_4_0_SONNET", shortName: "Sonnet 4.0 Region", description: "Region override for Claude 4.0 Sonnet in Vertex AI", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "VERTEX_REGION_CLAUDE_4_1_OPUS", shortName: "Opus 4.1 Region", description: "Region override for Claude 4.1 Opus in Vertex AI", type: .string, defaultValue: nil),
+
+        // AWS Bedrock
+        ClaudeEnvVariable(name: "AWS_BEARER_TOKEN_BEDROCK", shortName: "Bedrock Token", description: "Bedrock API key for authentication", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "AWS_REGION", shortName: "AWS Region", description: "AWS region", type: .string, defaultValue: nil),
+
+        // Bash Configuration
+        ClaudeEnvVariable(name: "BASH_DEFAULT_TIMEOUT_MS", shortName: "Bash Default Timeout", description: "Default timeout for long-running bash commands", type: .integer, defaultValue: nil),
+        ClaudeEnvVariable(name: "BASH_MAX_OUTPUT_LENGTH", shortName: "Bash Max Output", description: "Maximum characters in bash outputs before truncation", type: .integer, defaultValue: nil),
+        ClaudeEnvVariable(name: "BASH_MAX_TIMEOUT_MS", shortName: "Bash Max Timeout", description: "Maximum timeout the model can set for bash commands", type: .integer, defaultValue: nil),
+        ClaudeEnvVariable(name: "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR", shortName: "Maintain Working Dir", description: "Return to original working directory after each Bash command", type: .boolean, defaultValue: "false"),
+
+        // Claude Code Configuration
+        ClaudeEnvVariable(name: "API_TIMEOUT_MS", shortName: "API Timeout", description: "API request timeout in milliseconds", type: .integer, defaultValue: nil),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_API_KEY_HELPER_TTL_MS", shortName: "Key Refresh Interval", description: "Credential refresh interval in milliseconds", type: .integer, defaultValue: nil),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_CLIENT_CERT", shortName: "Client Certificate", description: "Path to client certificate file for mTLS authentication", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_CLIENT_KEY", shortName: "Client Key", description: "Path to client private key file for mTLS authentication", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_CLIENT_KEY_PASSPHRASE", shortName: "Key Passphrase", description: "Passphrase for encrypted private key", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_DISABLE_BACKGROUND_TASKS", shortName: "Disable Background Tasks", description: "Disable all background task functionality", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS", shortName: "Disable Betas", description: "Disable Anthropic API-specific beta headers", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC", shortName: "Disable Traffic", description: "Disable non-essential network traffic", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_DISABLE_TERMINAL_TITLE", shortName: "Disable Terminal Title", description: "Disable automatic terminal title updates", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_ENABLE_TELEMETRY", shortName: "Enable Telemetry", description: "Enable telemetry collection", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_FILE_READ_MAX_OUTPUT_TOKENS", shortName: "File Read Max Tokens", description: "Override default token limit for file reads", type: .integer, defaultValue: nil),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_HIDE_ACCOUNT_INFO", shortName: "Hide Account Info", description: "Hide email and organization name from UI", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_IDE_SKIP_AUTO_INSTALL", shortName: "Skip IDE Auto Install", description: "Skip auto-installation of IDE extensions", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_MAX_OUTPUT_TOKENS", shortName: "Max Output Tokens", description: "Maximum output tokens for most requests", type: .integer, defaultValue: "4096"),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_OTEL_HEADERS_HELPER_DEBOUNCE_MS", shortName: "OTEL Headers Interval", description: "Interval for refreshing dynamic OpenTelemetry headers", type: .integer, defaultValue: "1740000"),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_SHELL", shortName: "Shell Override", description: "Override automatic shell detection", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_SHELL_PREFIX", shortName: "Shell Prefix", description: "Command prefix to wrap all bash commands", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_SKIP_BEDROCK_AUTH", shortName: "Skip Bedrock Auth", description: "Skip AWS authentication for Bedrock", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_SKIP_FOUNDRY_AUTH", shortName: "Skip Foundry Auth", description: "Skip Azure authentication for Microsoft Foundry", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_SKIP_VERTEX_AUTH", shortName: "Skip Vertex Auth", description: "Skip Google authentication for Vertex", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_USE_BEDROCK", shortName: "Use Bedrock", description: "Use Amazon Bedrock", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_USE_FOUNDRY", shortName: "Use Foundry", description: "Use Microsoft Foundry", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "CLAUDE_CODE_USE_VERTEX", shortName: "Use Vertex", description: "Use Google Vertex AI", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "CLAUDE_CONFIG_DIR", shortName: "Config Directory", description: "Custom location for configuration and data files", type: .string, defaultValue: "~/.claude"),
+        ClaudeEnvVariable(name: "CLAUDE_ENV_FILE", shortName: "Env File Path", description: "File path for persisting environment variables from SessionStart hooks", type: .string, defaultValue: nil),
+
+        // Feature Toggles
+        ClaudeEnvVariable(name: "DISABLE_AUTOUPDATER", shortName: "Disable Auto Update", description: "Disable automatic updates", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "DISABLE_BUG_COMMAND", shortName: "Disable Bug Command", description: "Disable /bug command", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "DISABLE_COST_WARNINGS", shortName: "Disable Cost Warnings", description: "Disable cost warning messages", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "DISABLE_ERROR_REPORTING", shortName: "Disable Error Report", description: "Opt out of Sentry error reporting", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "DISABLE_NON_ESSENTIAL_MODEL_CALLS", shortName: "Disable Extra Calls", description: "Disable model calls for non-critical paths", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "DISABLE_PROMPT_CACHING", shortName: "Disable Caching", description: "Disable prompt caching for all models", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "DISABLE_PROMPT_CACHING_HAIKU", shortName: "Disable Haiku Cache", description: "Disable prompt caching for Haiku models", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "DISABLE_PROMPT_CACHING_OPUS", shortName: "Disable Opus Cache", description: "Disable prompt caching for Opus models", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "DISABLE_PROMPT_CACHING_SONNET", shortName: "Disable Sonnet Cache", description: "Disable prompt caching for Sonnet models", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "DISABLE_TELEMETRY", shortName: "Disable Telemetry", description: "Opt out of Statsig telemetry", type: .boolean, defaultValue: "false"),
+
+        // Proxy Configuration
+        ClaudeEnvVariable(name: "HTTP_PROXY", shortName: "HTTP Proxy", description: "HTTP proxy server", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "HTTPS_PROXY", shortName: "HTTPS Proxy", description: "HTTPS proxy server", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "NO_PROXY", shortName: "Proxy Bypass", description: "List of domains and IPs to bypass proxy", type: .string, defaultValue: nil),
+
+        // MCP Configuration
+        ClaudeEnvVariable(name: "MAX_MCP_OUTPUT_TOKENS", shortName: "MCP Max Tokens", description: "Maximum tokens for MCP tool responses", type: .integer, defaultValue: "25000"),
+        ClaudeEnvVariable(name: "MCP_TIMEOUT", shortName: "MCP Startup Timeout", description: "Timeout in milliseconds for MCP server startup", type: .integer, defaultValue: nil),
+        ClaudeEnvVariable(name: "MCP_TOOL_TIMEOUT", shortName: "MCP Tool Timeout", description: "Timeout in milliseconds for MCP tool execution", type: .integer, defaultValue: nil),
+
+        // Thinking Configuration
+        ClaudeEnvVariable(name: "MAX_THINKING_TOKENS", shortName: "Thinking Tokens", description: "Token budget for extended thinking process", type: .integer, defaultValue: "0"),
+
+        // Certificate Configuration
+        ClaudeEnvVariable(name: "NODE_EXTRA_CA_CERTS", shortName: "CA Certificates", description: "Path to custom CA certificates", type: .string, defaultValue: nil),
+
+        // OpenTelemetry Configuration
+        ClaudeEnvVariable(name: "OTEL_EXPORTER_OTLP_ENDPOINT", shortName: "OTLP Endpoint", description: "OTLP collector endpoint", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "OTEL_EXPORTER_OTLP_HEADERS", shortName: "OTLP Headers", description: "OTLP authentication headers", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "OTEL_EXPORTER_OTLP_LOGS_ENDPOINT", shortName: "OTLP Logs Endpoint", description: "OTLP logs endpoint", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "OTEL_EXPORTER_OTLP_LOGS_PROTOCOL", shortName: "OTLP Logs Protocol", description: "Logs protocol", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "OTEL_EXPORTER_OTLP_METRICS_ENDPOINT", shortName: "OTLP Metrics Endpoint", description: "OTLP metrics endpoint", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "OTEL_EXPORTER_OTLP_METRICS_PROTOCOL", shortName: "OTLP Metrics Protocol", description: "Metrics protocol", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "OTEL_EXPORTER_OTLP_PROTOCOL", shortName: "OTLP Protocol", description: "OTLP exporter protocol", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "OTEL_LOG_USER_PROMPTS", shortName: "Log User Prompts", description: "Enable logging of user prompt content", type: .boolean, defaultValue: "false"),
+        ClaudeEnvVariable(name: "OTEL_LOGS_EXPORTER", shortName: "Logs Exporter", description: "Logs exporter type", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "OTEL_LOGS_EXPORT_INTERVAL", shortName: "Logs Export Interval", description: "Logs export interval in milliseconds", type: .integer, defaultValue: "5000"),
+        ClaudeEnvVariable(name: "OTEL_METRIC_EXPORT_INTERVAL", shortName: "Metrics Export Interval", description: "Metrics export interval in milliseconds", type: .integer, defaultValue: "60000"),
+        ClaudeEnvVariable(name: "OTEL_METRICS_EXPORTER", shortName: "Metrics Exporter", description: "Metrics exporter type", type: .string, defaultValue: nil),
+        ClaudeEnvVariable(name: "OTEL_METRICS_INCLUDE_ACCOUNT_UUID", shortName: "Include Account UUID", description: "Include account UUID attribute in metrics", type: .boolean, defaultValue: "true"),
+        ClaudeEnvVariable(name: "OTEL_METRICS_INCLUDE_SESSION_ID", shortName: "Include Session ID", description: "Include session ID attribute in metrics", type: .boolean, defaultValue: "true"),
+        ClaudeEnvVariable(name: "OTEL_METRICS_INCLUDE_VERSION", shortName: "Include Version", description: "Include version attribute in metrics", type: .boolean, defaultValue: "false"),
+
+        // Miscellaneous
+        ClaudeEnvVariable(name: "SLASH_COMMAND_TOOL_CHAR_BUDGET", shortName: "Command Char Budget", description: "Maximum characters for slash command metadata", type: .integer, defaultValue: "15000"),
+        ClaudeEnvVariable(name: "USE_BUILTIN_RIPGREP", shortName: "Use Built-in RipGrep", description: "Use built-in rg instead of system-installed rg", type: .boolean, defaultValue: "true"),
+    ]
+
+    /// Get a variable by name
+    static func find(byName name: String) -> ClaudeEnvVariable? {
+        allVariables.first { $0.name == name }
+    }
+
+    /// Filter variables by search query
+    static func search(_ query: String) -> [ClaudeEnvVariable] {
+        guard !query.isEmpty else { return allVariables }
+        let lowercasedQuery = query.lowercased()
+        return allVariables.filter {
+            $0.name.lowercased().contains(lowercasedQuery) ||
+            $0.descriptionDefault.lowercased().contains(lowercasedQuery)
+        }
+    }
+
+    /// Get available variables excluding already configured ones
+    static func availableVariables(excluding existingKeys: Set<String>) -> [ClaudeEnvVariable] {
+        allVariables.filter { !existingKeys.contains($0.name) }
+    }
+}

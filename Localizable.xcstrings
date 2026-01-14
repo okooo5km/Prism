@@ -43,23 +43,24 @@
         }
       }
     },
-    "123" : {
+    "Add" : {
+      "comment" : "Add button",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "123"
+            "value" : "添加"
           }
         }
       }
     },
-    "Add Custom Variable" : {
-      "comment" : "Button to add custom environment variable",
+    "Add Environment Variable" : {
+      "comment" : "Button and title for adding environment variable",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
-            "value" : "添加自定义变量"
+            "value" : "添加环境变量"
           }
         }
       }
@@ -189,6 +190,7 @@
     },
     "Boolean" : {
       "comment" : "Boolean type label",
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -231,6 +233,18 @@
         }
       }
     },
+    "Custom" : {
+      "comment" : "Toggle button for custom variable mode",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定义"
+          }
+        }
+      }
+    },
     "Custom AI" : {
       "comment" : "Custom AI provider name",
       "localizations" : {
@@ -255,6 +269,7 @@
     },
     "CUSTOM_ENV_KEY" : {
       "comment" : "Custom environment key placeholder",
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -349,6 +364,17 @@
         }
       }
     },
+    "Enter a number" : {
+      "comment" : "Placeholder for number input",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输入数字"
+          }
+        }
+      }
+    },
     "Enter provider name" : {
       "comment" : "Provider name field placeholder",
       "localizations" : {
@@ -356,6 +382,17 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "输入 API 服务商名称"
+          }
+        }
+      }
+    },
+    "Enter value" : {
+      "comment" : "Placeholder for value input",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "输入值"
           }
         }
       }
@@ -368,6 +405,1920 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "请输入 API 密钥"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.ANTHROPIC_API_KEY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "作为 X-Api-Key 请求头发送的 API 密钥"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.ANTHROPIC_AUTH_TOKEN" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Authorization 请求头的自定义值（自动添加 Bearer 前缀）"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.ANTHROPIC_BASE_URL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "API 请求的基础 URL"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.ANTHROPIC_CUSTOM_HEADERS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "添加到请求的自定义请求头（格式：名称: 值）"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.ANTHROPIC_DEFAULT_HAIKU_MODEL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haiku 的默认模型名称"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.ANTHROPIC_DEFAULT_OPUS_MODEL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opus 的默认模型名称"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.ANTHROPIC_DEFAULT_SONNET_MODEL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sonnet 的默认模型名称"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.ANTHROPIC_FOUNDRY_API_KEY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Microsoft Foundry 认证的 API 密钥"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.ANTHROPIC_FOUNDRY_BASE_URL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Microsoft Foundry 的完整基础 URL"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.ANTHROPIC_FOUNDRY_RESOURCE" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Azure 资源名称"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.ANTHROPIC_MODEL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "要使用的模型设置名称"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.ANTHROPIC_SMALL_FAST_MODEL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "[已废弃] 用于后台任务的 Haiku 级别模型名称"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.ANTHROPIC_SMALL_FAST_MODEL_AWS_REGION" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用 Bedrock 时覆盖 Haiku 模型的 AWS 区域"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.ANTHROPIC_VERTEX_PROJECT_ID" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vertex AI 的 GCP 项目 ID"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.API_TIMEOUT_MS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "API 请求超时时间（毫秒）"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.AWS_BEARER_TOKEN_BEDROCK" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bedrock 认证的 API 密钥"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.AWS_REGION" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AWS 区域"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.BASH_DEFAULT_TIMEOUT_MS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "长时间运行的 bash 命令的默认超时时间"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.BASH_MAX_OUTPUT_LENGTH" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "截断前 bash 输出的最大字符数"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.BASH_MAX_TIMEOUT_MS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型可为 bash 命令设置的最大超时时间"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "每个 Bash 命令后返回原始工作目录"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_API_KEY_HELPER_TTL_MS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "凭证刷新间隔（毫秒）"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_CLIENT_CERT" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mTLS 认证的客户端证书文件路径"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_CLIENT_KEY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "mTLS 认证的客户端私钥文件路径"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_CLIENT_KEY_PASSPHRASE" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "加密私钥的密码"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_DISABLE_BACKGROUND_TASKS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用所有后台任务功能"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用 Anthropic API 特定的 beta 请求头"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用非必要的网络流量"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_DISABLE_TERMINAL_TITLE" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用自动更新终端标题"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_ENABLE_TELEMETRY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "启用遥测数据收集"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_FILE_READ_MAX_OUTPUT_TOKENS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "覆盖文件读取的默认 token 限制"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_HIDE_ACCOUNT_INFO" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在 UI 中隐藏邮箱和组织名称"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_IDE_SKIP_AUTO_INSTALL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跳过 IDE 扩展的自动安装"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_MAX_OUTPUT_TOKENS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "大多数请求的最大输出 token 数"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_OTEL_HEADERS_HELPER_DEBOUNCE_MS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "刷新动态 OpenTelemetry 请求头的间隔"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_SHELL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "覆盖自动 shell 检测"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_SHELL_PREFIX" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "包装所有 bash 命令的命令前缀"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_SKIP_BEDROCK_AUTH" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跳过 Bedrock 的 AWS 认证"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_SKIP_FOUNDRY_AUTH" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跳过 Microsoft Foundry 的 Azure 认证"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_SKIP_VERTEX_AUTH" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跳过 Vertex 的 Google 认证"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_SUBAGENT_MODEL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "子代理使用的模型"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_USE_BEDROCK" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用 Amazon Bedrock"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_USE_FOUNDRY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用 Microsoft Foundry"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CODE_USE_VERTEX" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用 Google Vertex AI"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_CONFIG_DIR" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "配置和数据文件的自定义位置"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLAUDE_ENV_FILE" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从 SessionStart 钩子持久化环境变量的文件路径"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.CLOUD_ML_REGION" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vertex AI 区域"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.DISABLE_AUTOUPDATER" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用自动更新"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.DISABLE_BUG_COMMAND" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用 /bug 命令"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.DISABLE_COST_WARNINGS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用费用警告消息"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.DISABLE_ERROR_REPORTING" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "退出 Sentry 错误报告"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.DISABLE_NON_ESSENTIAL_MODEL_CALLS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用非关键路径的模型调用"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.DISABLE_PROMPT_CACHING" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用所有模型的提示缓存"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.DISABLE_PROMPT_CACHING_HAIKU" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用 Haiku 模型的提示缓存"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.DISABLE_PROMPT_CACHING_OPUS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用 Opus 模型的提示缓存"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.DISABLE_PROMPT_CACHING_SONNET" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用 Sonnet 模型的提示缓存"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.DISABLE_TELEMETRY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "退出 Statsig 遥测"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.HTTP_PROXY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HTTP 代理服务器"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.HTTPS_PROXY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HTTPS 代理服务器"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.MAX_MCP_OUTPUT_TOKENS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MCP 工具响应的最大 token 数"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.MAX_THINKING_TOKENS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "扩展思考过程的 token 预算"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.MCP_TIMEOUT" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MCP 服务器启动超时时间（毫秒）"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.MCP_TOOL_TIMEOUT" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MCP 工具执行超时时间（毫秒）"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.NO_PROXY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "绕过代理的域名和 IP 列表"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.NODE_EXTRA_CA_CERTS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定义 CA 证书的路径"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.OTEL_EXPORTER_OTLP_ENDPOINT" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OTLP 收集器端点"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.OTEL_EXPORTER_OTLP_HEADERS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OTLP 认证请求头"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.OTEL_EXPORTER_OTLP_LOGS_ENDPOINT" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OTLP 日志端点"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.OTEL_EXPORTER_OTLP_LOGS_PROTOCOL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日志协议"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.OTEL_EXPORTER_OTLP_METRICS_ENDPOINT" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OTLP 指标端点"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.OTEL_EXPORTER_OTLP_METRICS_PROTOCOL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "指标协议"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.OTEL_EXPORTER_OTLP_PROTOCOL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OTLP 导出器协议"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.OTEL_LOG_USER_PROMPTS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "启用用户提示内容的日志记录"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.OTEL_LOGS_EXPORT_INTERVAL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日志导出间隔（毫秒）"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.OTEL_LOGS_EXPORTER" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日志导出器类型"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.OTEL_METRIC_EXPORT_INTERVAL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "指标导出间隔（毫秒）"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.OTEL_METRICS_EXPORTER" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "指标导出器类型"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.OTEL_METRICS_INCLUDE_ACCOUNT_UUID" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在指标中包含账户 UUID 属性"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.OTEL_METRICS_INCLUDE_SESSION_ID" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在指标中包含会话 ID 属性"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.OTEL_METRICS_INCLUDE_VERSION" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "在指标中包含版本属性"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.SLASH_COMMAND_TOOL_CHAR_BUDGET" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "斜杠命令元数据的最大字符数"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.USE_BUILTIN_RIPGREP" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用内置的 rg 而非系统安装的 rg"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.VERTEX_REGION_CLAUDE_3_5_HAIKU" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vertex AI 中 Claude 3.5 Haiku 的区域覆盖"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.VERTEX_REGION_CLAUDE_3_7_SONNET" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vertex AI 中 Claude 3.7 Sonnet 的区域覆盖"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.VERTEX_REGION_CLAUDE_4_0_OPUS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vertex AI 中 Claude 4.0 Opus 的区域覆盖"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.VERTEX_REGION_CLAUDE_4_0_SONNET" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vertex AI 中 Claude 4.0 Sonnet 的区域覆盖"
+          }
+        }
+      }
+    },
+    "EnvVar.Desc.VERTEX_REGION_CLAUDE_4_1_OPUS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vertex AI 中 Claude 4.1 Opus 的区域覆盖"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.ANTHROPIC_API_KEY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "API 密钥"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.ANTHROPIC_AUTH_TOKEN" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "认证令牌"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.ANTHROPIC_BASE_URL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "API 端点"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.ANTHROPIC_CUSTOM_HEADERS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "自定义请求头"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.ANTHROPIC_DEFAULT_HAIKU_MODEL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haiku 模型"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.ANTHROPIC_DEFAULT_OPUS_MODEL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opus 模型"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.ANTHROPIC_DEFAULT_SONNET_MODEL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sonnet 模型"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.ANTHROPIC_FOUNDRY_API_KEY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foundry 密钥"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.ANTHROPIC_FOUNDRY_BASE_URL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foundry 端点"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.ANTHROPIC_FOUNDRY_RESOURCE" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Foundry 资源"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.ANTHROPIC_MODEL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "模型设置"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.ANTHROPIC_SMALL_FAST_MODEL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "小型快速模型"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.ANTHROPIC_SMALL_FAST_MODEL_AWS_REGION" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "小模型区域"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.ANTHROPIC_VERTEX_PROJECT_ID" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vertex 项目 ID"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.API_TIMEOUT_MS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "API 超时"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.AWS_BEARER_TOKEN_BEDROCK" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bedrock 令牌"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.AWS_REGION" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "AWS 区域"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.BASH_DEFAULT_TIMEOUT_MS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bash 默认超时"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.BASH_MAX_OUTPUT_LENGTH" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bash 最大输出"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.BASH_MAX_TIMEOUT_MS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Bash 最大超时"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "保持工作目录"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_API_KEY_HELPER_TTL_MS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "密钥刷新间隔"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_CLIENT_CERT" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "客户端证书"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_CLIENT_KEY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "客户端密钥"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_CLIENT_KEY_PASSPHRASE" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "密钥密码"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_DISABLE_BACKGROUND_TASKS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用后台任务"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_DISABLE_EXPERIMENTAL_BETAS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用测试版"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_DISABLE_NONESSENTIAL_TRAFFIC" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用非必要流量"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_DISABLE_TERMINAL_TITLE" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用终端标题"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_ENABLE_TELEMETRY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "启用遥测"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_FILE_READ_MAX_OUTPUT_TOKENS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "文件读取最大 Token"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_HIDE_ACCOUNT_INFO" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "隐藏账户信息"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_IDE_SKIP_AUTO_INSTALL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跳过 IDE 自动安装"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_MAX_OUTPUT_TOKENS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "最大输出 Token"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_OTEL_HEADERS_HELPER_DEBOUNCE_MS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OTEL 请求头间隔"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_SHELL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shell 覆盖"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_SHELL_PREFIX" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Shell 前缀"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_SKIP_BEDROCK_AUTH" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跳过 Bedrock 认证"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_SKIP_FOUNDRY_AUTH" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跳过 Foundry 认证"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_SKIP_VERTEX_AUTH" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "跳过 Vertex 认证"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_SUBAGENT_MODEL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "子代理模型"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_USE_BEDROCK" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用 Bedrock"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_USE_FOUNDRY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用 Foundry"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CODE_USE_VERTEX" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用 Vertex"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_CONFIG_DIR" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "配置目录"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLAUDE_ENV_FILE" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "环境文件路径"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.CLOUD_ML_REGION" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Vertex 区域"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.DISABLE_AUTOUPDATER" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用自动更新"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.DISABLE_BUG_COMMAND" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用 Bug 命令"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.DISABLE_COST_WARNINGS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用费用警告"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.DISABLE_ERROR_REPORTING" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用错误报告"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.DISABLE_NON_ESSENTIAL_MODEL_CALLS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用额外调用"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.DISABLE_PROMPT_CACHING" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用缓存"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.DISABLE_PROMPT_CACHING_HAIKU" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用 Haiku 缓存"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.DISABLE_PROMPT_CACHING_OPUS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用 Opus 缓存"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.DISABLE_PROMPT_CACHING_SONNET" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用 Sonnet 缓存"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.DISABLE_TELEMETRY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "禁用遥测"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.HTTP_PROXY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HTTP 代理"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.HTTPS_PROXY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "HTTPS 代理"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.MAX_MCP_OUTPUT_TOKENS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MCP 最大 Token"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.MAX_THINKING_TOKENS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "思考 Token"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.MCP_TIMEOUT" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MCP 启动超时"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.MCP_TOOL_TIMEOUT" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "MCP 工具超时"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.NO_PROXY" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "代理绕过"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.NODE_EXTRA_CA_CERTS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "CA 证书"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.OTEL_EXPORTER_OTLP_ENDPOINT" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OTLP 端点"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.OTEL_EXPORTER_OTLP_HEADERS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OTLP 请求头"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.OTEL_EXPORTER_OTLP_LOGS_ENDPOINT" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OTLP 日志端点"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.OTEL_EXPORTER_OTLP_LOGS_PROTOCOL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OTLP 日志协议"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.OTEL_EXPORTER_OTLP_METRICS_ENDPOINT" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OTLP 指标端点"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.OTEL_EXPORTER_OTLP_METRICS_PROTOCOL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OTLP 指标协议"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.OTEL_EXPORTER_OTLP_PROTOCOL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "OTLP 协议"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.OTEL_LOG_USER_PROMPTS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "记录用户提示"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.OTEL_LOGS_EXPORT_INTERVAL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日志导出间隔"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.OTEL_LOGS_EXPORTER" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "日志导出器"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.OTEL_METRIC_EXPORT_INTERVAL" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "指标导出间隔"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.OTEL_METRICS_EXPORTER" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "指标导出器"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.OTEL_METRICS_INCLUDE_ACCOUNT_UUID" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "包含账户 UUID"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.OTEL_METRICS_INCLUDE_SESSION_ID" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "包含会话 ID"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.OTEL_METRICS_INCLUDE_VERSION" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "包含版本"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.SLASH_COMMAND_TOOL_CHAR_BUDGET" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "命令字符预算"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.USE_BUILTIN_RIPGREP" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "使用内置 RipGrep"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.VERTEX_REGION_CLAUDE_3_5_HAIKU" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Haiku 3.5 区域"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.VERTEX_REGION_CLAUDE_3_7_SONNET" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sonnet 3.7 区域"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.VERTEX_REGION_CLAUDE_4_0_OPUS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opus 4.0 区域"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.VERTEX_REGION_CLAUDE_4_0_SONNET" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Sonnet 4.0 区域"
+          }
+        }
+      }
+    },
+    "EnvVar.Short.VERTEX_REGION_CLAUDE_4_1_OPUS" : {
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "Opus 4.1 区域"
           }
         }
       }
@@ -386,6 +2337,7 @@
     },
     "Integer" : {
       "comment" : "Integer type label",
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -629,6 +2581,17 @@
         }
       }
     },
+    "No available variables" : {
+      "comment" : "Empty state when no variables to add",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "暂无可用变量"
+          }
+        }
+      }
+    },
     "No conflict detected" : {
       "comment" : "No token conflict message",
       "localizations" : {
@@ -756,6 +2719,17 @@
         }
       }
     },
+    "Remove variable" : {
+      "comment" : "Remove custom environment variable button",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "移除变量"
+          }
+        }
+      }
+    },
     "Save" : {
       "comment" : "Save button",
       "localizations" : {
@@ -774,6 +2748,29 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "仍然保存"
+          }
+        }
+      }
+    },
+    "Search variables..." : {
+      "comment" : "Search field placeholder for environment variables",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "搜索环境变量..."
+          }
+        }
+      }
+    },
+    "Select from List" : {
+      "comment" : "Toggle button to select from variable list",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "从列表选择"
           }
         }
       }
@@ -814,6 +2811,7 @@
     },
     "String" : {
       "comment" : "String type label",
+      "extractionState" : "manual",
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
@@ -856,24 +2854,26 @@
         }
       }
     },
+    "Try a different search term" : {
+      "comment" : "Search hint when no results found",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "尝试其他搜索词"
+          }
+        }
+      }
+    },
     "Type" : {
       "comment" : "Type field label",
+      "extractionState" : "manual",
+      "generatesSymbol" : false,
       "localizations" : {
         "zh-Hans" : {
           "stringUnit" : {
             "state" : "translated",
             "value" : "类型"
-          }
-        }
-      }
-    },
-    "value" : {
-      "comment" : "Value placeholder (lowercase)",
-      "localizations" : {
-        "zh-Hans" : {
-          "stringUnit" : {
-            "state" : "translated",
-            "value" : "值"
           }
         }
       }
@@ -912,6 +2912,18 @@
           "stringUnit" : {
             "state" : "translated",
             "value" : "https://www.streamlake.com/document/WANQING/me6ymdjrqv8lp4iq0o9"
+          }
+        }
+      }
+    },
+    "Variable Name" : {
+      "comment" : "Variable name field label",
+      "extractionState" : "manual",
+      "localizations" : {
+        "zh-Hans" : {
+          "stringUnit" : {
+            "state" : "translated",
+            "value" : "变量名称"
           }
         }
       }

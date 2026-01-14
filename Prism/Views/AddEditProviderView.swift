@@ -20,9 +20,6 @@ struct AddEditProviderView: View {
     @State private var baseTemplateKeys: Set<String>
     @State private var templateDocLink: String?
     @State private var showingAddCustomVar = false
-    @State private var newCustomKey = ""
-    @State private var newCustomValue = ""
-    @State private var newCustomType: EnvValueType = .string
 
     private var isSaveDisabled: Bool {
         // Provider name is required
@@ -53,7 +50,8 @@ struct AddEditProviderView: View {
         if let provider = provider {
             // Editing existing provider - infer template from BASE_URL
             let inferredTemplate = Self.inferTemplate(from: provider)
-            _baseTemplateKeys = State(initialValue: Set(inferredTemplate?.envVariables.keys ?? provider.envVariables.keys))
+            // Use template keys if matched, otherwise use core EnvKey variables as fallback
+            _baseTemplateKeys = State(initialValue: inferredTemplate.map { Set($0.envVariables.keys) } ?? Set(EnvKey.allCases.map { $0.rawValue }))
             _templateDocLink = State(initialValue: inferredTemplate?.docLink)
             _providerName = State(initialValue: provider.name)
             _envVariables = State(initialValue: provider.envVariables)
@@ -192,7 +190,7 @@ struct AddEditProviderView: View {
                     }) {
                         HStack {
                             Image(systemName: "plus.circle.fill")
-                            Text("Add Custom Variable")
+                            Text("Add Environment Variable")
                         }
                         .font(.subheadline)
                         .padding(8)
@@ -202,22 +200,12 @@ struct AddEditProviderView: View {
                     .buttonStyle(.plain)
                     .popover(isPresented: $showingAddCustomVar, arrowEdge: .bottom) {
                         AddCustomVariableView(
-                            key: $newCustomKey,
-                            value: $newCustomValue,
-                            type: $newCustomType,
-                            onSave: {
-                                if !newCustomKey.isEmpty {
-                                    envVariables[newCustomKey] = EnvValue(value: newCustomValue, type: newCustomType)
-                                    newCustomKey = ""
-                                    newCustomValue = ""
-                                    newCustomType = .string
+                            existingKeys: Set(envVariables.keys),
+                            onSave: { key, envValue in
+                                envVariables[key] = envValue
                                     showingAddCustomVar = false
-                                }
                             },
                             onCancel: {
-                                newCustomKey = ""
-                                newCustomValue = ""
-                                newCustomType = .string
                                 showingAddCustomVar = false
                             }
                         )
@@ -326,6 +314,8 @@ struct AddEditProviderView: View {
 
     @ViewBuilder
     private func renderField(for envKey: EnvKey) -> some View {
+        let description = ClaudeEnvVariable.find(byName: envKey.rawValue)?.description
+        
         switch envKey.valueType {
         case .string:
             if envKey == .authToken {
@@ -334,6 +324,7 @@ struct AddEditProviderView: View {
                     systemImage: envKey.systemImage,
                     placeholder: LocalizedStringKey(envKey.placeholder),
                     required: true,
+                    description: description,
                     value: binding(for: envKey)
                 )
             } else {
@@ -342,6 +333,7 @@ struct AddEditProviderView: View {
                     systemImage: envKey.systemImage,
                     placeholder: LocalizedStringKey(envKey.placeholder),
                     required: envKey == .baseURL,
+                    description: description,
                     value: binding(for: envKey)
                 )
             }
@@ -354,12 +346,14 @@ struct AddEditProviderView: View {
                     value.isEmpty || Int(value) != nil
                 },
                 validationMessage: "Must be a valid integer",
+                description: description,
                 value: binding(for: envKey)
             )
         case .boolean:
             DetailSwitchCardView(
                 title: LocalizedStringKey(envKey.displayName),
                 systemImage: envKey.systemImage,
+                description: description,
                 value: boolBinding(for: envKey)
             )
         }
@@ -368,62 +362,70 @@ struct AddEditProviderView: View {
     @ViewBuilder
     private func renderCustomField(for key: String) -> some View {
         if let envValue = envVariables[key] {
-            VStack(alignment: .leading, spacing: 8) {
-                HStack(spacing: 4) {
-                    HStack(spacing: 4) {
-                        Image(systemName: "gearshape")
-                        Text(key)
-
-                        Text(LocalizedStringKey(envValue.type.displayName))
-                            .font(.caption2)
-                            .padding(.horizontal, 6)
-                            .padding(.vertical, 2)
-                            .background(cornerRadius: 4, fill: .secondary.opacity(0.2))
+            let variableInfo = ClaudeEnvVariable.find(byName: key)
+            let displayName = variableInfo?.shortName ?? key
+            let description = variableInfo?.description
+            
+            switch envValue.type {
+            case .string:
+                DetailTextFieldCardView(
+                    title: LocalizedStringKey(displayName),
+                    systemImage: "gearshape",
+                    placeholder: "Enter value",
+                    description: description,
+                    onDelete: { envVariables.removeValue(forKey: key) },
+                    value: customBinding(for: key, type: envValue.type)
+                )
+            case .integer:
+                DetailTextFieldCardView(
+                    title: LocalizedStringKey(displayName),
+                    systemImage: "gearshape",
+                    placeholder: "Enter a number",
+                    validation: { value in
+                        value.isEmpty || Int(value) != nil
+                    },
+                    validationMessage: "Must be a valid integer",
+                    description: description,
+                    onDelete: { envVariables.removeValue(forKey: key) },
+                    value: customBinding(for: key, type: envValue.type)
+                )
+            case .boolean:
+                DetailSwitchCardView(
+                    title: LocalizedStringKey(displayName),
+                    systemImage: "gearshape",
+                    description: description,
+                    onDelete: { envVariables.removeValue(forKey: key) },
+                    value: customBoolBinding(for: key)
+                )
                     }
-                    .foregroundStyle(.tertiary)
-                    
-                    Spacer()
-                    
-                    Button(action: {
-                        envVariables.removeValue(forKey: key)
-                    }) {
-                        Image(systemName: "minus.circle.fill")
-                    }
-                    .buttonStyle(.plain)
-                }
-                .font(.subheadline)
-
-                if envValue.type == .boolean {
-                    Toggle("", isOn: Binding(
+        }
+    }
+    
+    private func customBinding(for key: String, type: EnvValueType) -> Binding<String> {
+        Binding<String>(
+            get: { envVariables[key]?.value ?? "" },
+            set: { newValue in
+                envVariables[key] = EnvValue(value: newValue, type: type)
+            }
+        )
+    }
+    
+    private func customBoolBinding(for key: String) -> Binding<Bool> {
+        Binding<Bool>(
                         get: {
-                            envValue.value == "1" || envValue.value.lowercased() == "true"
+                let value = envVariables[key]?.value ?? "0"
+                return value == "1" || value.lowercased() == "true"
                         },
                         set: { newValue in
                             envVariables[key] = EnvValue(value: newValue ? "1" : "0", type: .boolean)
                         }
-                    ))
-                    .toggleStyle(.switch)
-                    .controlSize(.mini)
-                } else {
-                    TextField("Value", text: Binding(
-                        get: { envValue.value },
-                        set: { newValue in
-                            envVariables[key] = EnvValue(value: newValue, type: envValue.type)
-                        }
-                    ))
-                    .font(.caption)
-                    .textFieldStyle(.plain)
-                    .padding(8)
-                    .background(cornerRadius: 8, strokeColor: .primary.opacity(0.04), fill: .background)
-                }
-            }
-            .padding(8)
-            .background(cornerRadius: 12, strokeColor: .primary.opacity(0.08), fill: .background.opacity(0.6))
+        )
         }
     }
 
     // MARK: - Template Inference
 
+extension AddEditProviderView {
     static func inferTemplate(from provider: Provider) -> ProviderTemplate? {
         guard let providerURLString = provider.envVariables["ANTHROPIC_BASE_URL"]?.value,
               !providerURLString.isEmpty,
@@ -447,36 +449,133 @@ struct AddEditProviderView: View {
 // MARK: - Add Custom Variable View
 
 struct AddCustomVariableView: View {
-    @Binding var key: String
-    @Binding var value: String
-    @Binding var type: EnvValueType
-    let onSave: () -> Void
+    let existingKeys: Set<String>
+    let onSave: (String, EnvValue) -> Void
     let onCancel: () -> Void
 
+    @State private var searchText = ""
+    @State private var selectedVariable: ClaudeEnvVariable?
+    @State private var value = ""
+
+    private var availableVariables: [ClaudeEnvVariable] {
+        let filtered = ClaudeEnvVariable.availableVariables(excluding: existingKeys)
+        if searchText.isEmpty {
+            return filtered
+        }
+        let lowercasedQuery = searchText.lowercased()
+        return filtered.filter {
+            $0.name.lowercased().contains(lowercasedQuery) ||
+            $0.description.lowercased().contains(lowercasedQuery)
+        }
+    }
+
+    private var isSaveDisabled: Bool {
+        selectedVariable == nil
+    }
+
     var body: some View {
-        VStack(spacing: 16) {
-            Text("Add Custom Variable")
+        VStack(spacing: 12) {
+            // Header
+            Text("Add Environment Variable")
                 .font(.headline)
 
-            DetailTextFieldCardView(
-                title: "Key",
-                systemImage: "key",
-                placeholder: "CUSTOM_ENV_KEY",
-                required: true,
-                value: $key
-            )
+            // Variable selection from list
+            variableSelectionView
 
-            DetailPickerCardView(
-                "Type",
-                systemImage: "gear",
-                selection: $type
-            ) {
-                Text("String").tag(EnvValueType.string)
-                Text("Integer").tag(EnvValueType.integer)
-                Text("Boolean").tag(EnvValueType.boolean)
+            // Value input (shown when a variable is selected)
+            if selectedVariable != nil {
+                valueInputView
             }
 
-            if type == .boolean {
+            // Action buttons
+            HStack {
+                Button("Cancel") {
+                    onCancel()
+                }
+                .buttonStyle(.gradient(configuration: .danger))
+
+                Spacer()
+
+                Button("Add") {
+                    if let variable = selectedVariable {
+                        let envValue = EnvValue(value: value, type: variable.type)
+                        onSave(variable.name, envValue)
+                    }
+                }
+                .buttonStyle(.gradient(configuration: .primary))
+                .disabled(isSaveDisabled)
+            }
+        }
+        .padding()
+        .frame(width: 420)
+    }
+
+    @ViewBuilder
+    private var variableSelectionView: some View {
+        VStack(spacing: 8) {
+            // Search field
+            HStack {
+                Image(systemName: "magnifyingglass")
+                    .foregroundStyle(.tertiary)
+                TextField("Search variables...", text: $searchText)
+                    .textFieldStyle(.plain)
+                if !searchText.isEmpty {
+                    Button(action: { searchText = "" }) {
+                        Image(systemName: "xmark.circle.fill")
+                            .foregroundStyle(.tertiary)
+                    }
+                    .buttonStyle(.plain)
+                }
+            }
+            .padding(8)
+            .background(cornerRadius: 8, strokeColor: .primary.opacity(0.08), fill: .background.opacity(0.6))
+
+            // Variable list
+            ScrollView {
+                LazyVStack(spacing: 6) {
+                    if availableVariables.isEmpty {
+                        VStack(spacing: 8) {
+                            Image(systemName: "tray")
+                                .font(.largeTitle)
+                                .foregroundStyle(.tertiary)
+                            Text("No available variables")
+                                .font(.caption)
+                                .foregroundStyle(.secondary)
+                            if !searchText.isEmpty {
+                                Text("Try a different search term")
+                                    .font(.caption2)
+                                    .foregroundStyle(.tertiary)
+                            }
+                        }
+                        .frame(maxWidth: .infinity)
+                        .padding(.vertical, 40)
+                    } else {
+                        ForEach(availableVariables) { variable in
+                            EnvVariableRow(
+                                variable: variable,
+                                isSelected: selectedVariable?.name == variable.name,
+                                onSelect: {
+                                    selectedVariable = variable
+                                    // Set default value if available
+                                    value = variable.defaultValue ?? ""
+                                }
+                            )
+                        }
+                    }
+                }
+                .padding(.vertical, 8)
+                .padding(.horizontal, 4)
+            }
+            .frame(maxHeight: 320)
+            }
+    }
+
+    @ViewBuilder
+    private var valueInputView: some View {
+        VStack(alignment: .leading, spacing: 8) {
+            if let variable = selectedVariable {
+                // Value input based on type
+                if variable.type == .boolean {
                 DetailSwitchCardView(
                     title: "Value",
                     systemImage: "checkmark.circle",
@@ -489,9 +588,9 @@ struct AddCustomVariableView: View {
                 DetailTextFieldCardView(
                     title: "Value",
                     systemImage: "text.alignleft",
-                    placeholder: type == .integer ? "123" : "value",
+                        placeholder: placeholderForVariable(variable),
                     validation: { val in
-                        if type == .integer && !val.isEmpty {
+                            if variable.type == .integer && !val.isEmpty {
                             return Int(val) != nil
                         }
                         return true
@@ -500,24 +599,81 @@ struct AddCustomVariableView: View {
                     value: $value
                 )
             }
-
-            HStack {
-                Button("Cancel") {
-                    onCancel()
-                }
-                .buttonStyle(.plain)
-
-                Spacer()
-
-                Button("Save") {
-                    onSave()
-                }
-                .buttonStyle(.gradient(configuration: .primary))
-                .disabled(key.isEmpty)
             }
         }
-        .padding()
-        .frame(width: 400)
+    }
+
+    private func placeholderForVariable(_ variable: ClaudeEnvVariable) -> LocalizedStringKey {
+        if let defaultValue = variable.defaultValue, !defaultValue.isEmpty {
+            return LocalizedStringKey(defaultValue)
+        }
+        if variable.type == .integer {
+            return "Enter a number"
+        }
+        return "Enter value"
+    }
+}
+
+// MARK: - Environment Variable Row
+
+struct EnvVariableRow: View {
+    let variable: ClaudeEnvVariable
+    let isSelected: Bool
+    let onSelect: () -> Void
+
+    private var typeStyle: StyledContainerStyle {
+        switch variable.type {
+        case .string:
+            return .pro
+        case .integer:
+            return .success
+        case .boolean:
+            return .warning
+        }
+    }
+
+    var body: some View {
+        Button(action: onSelect) {
+            HStack(spacing: 8) {
+                // Variable info
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack(spacing: 6) {
+                        Text(variable.name)
+                            .font(.caption)
+                            .fontWeight(.medium)
+                            .lineLimit(1)
+
+                        // Type badge - use simple background to avoid nesting conflict
+                        Text(variable.type.displayName)
+                            .font(.system(size: 9, weight: .medium))
+                            .foregroundStyle(.white)
+                            .padding(.vertical, 2)
+                            .padding(.horizontal, 4)
+                            .background(
+                                RoundedRectangle(cornerRadius: 4)
+                                    .fill(
+                                        LinearGradient(
+                                            colors: typeStyle.backgroundGradient,
+                                            startPoint: .top,
+                                            endPoint: .bottom
+                                        )
+                                    )
+                            )
+                    }
+
+                    // Always show description
+                    Text(variable.description)
+                        .font(.caption2)
+                        .foregroundStyle(isSelected ? .white.opacity(0.8) : .secondary)
+                        .lineLimit(2)
+                }
+
+                Spacer()
+            }
+            .styledContainer(style: isSelected ? .selected : .notSelected)
+            .contentShape(Rectangle())
+                }
+        .buttonStyle(.plain)
     }
 }
 
